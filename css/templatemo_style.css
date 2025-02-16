@@ -117,9 +117,13 @@ em { color: #e55822; }
 	float: left;
 	width: 600px;
 
-	/* 后加 */
-	/* height: 900px;
-	overflow-y: auto; */
+	
+	
+}
+/* 后加 */
+#content_g {
+height: 900px;
+	overflow-y: auto;
 }
 
 #content p { margin-bottom: 15px; }
