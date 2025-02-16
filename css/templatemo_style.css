@@ -116,7 +116,9 @@ em { color: #e55822; }
 #content {
 	float: left;
 	width: 600px;
-	height: 80vh;
+	
+	/* 后加 */
+	height: 900px;
 	overflow-y: auto;
 }
 
