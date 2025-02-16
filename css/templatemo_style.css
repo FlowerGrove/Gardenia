@@ -116,16 +116,6 @@ em { color: #e55822; }
 #content {
 	float: left;
 	width: 600px;
-
-	
-	
-}
-/* 后加,滑动 */
-#content_g {
-	width: 620px;
-	float: left;
-	height: 850px;
-	overflow-y: auto;
 }
 
 #content p { margin-bottom: 15px; }
@@ -173,11 +163,8 @@ em { color: #e55822; }
 .post_content img { margin-bottom: 10px; }
 
 #sidebar {
-	/* float: right; */
+	float: right;
 	width: 240px;
-	position: fixed;
-	top: 255px;
-	right: 160px;
 }
 
 .sidebar_box {
