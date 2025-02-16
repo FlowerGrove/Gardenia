@@ -173,8 +173,11 @@ em { color: #e55822; }
 .post_content img { margin-bottom: 10px; }
 
 #sidebar {
-	float: right;
+	/* float: right; */
 	width: 240px;
+	position: absolute;
+	top: 255px;
+	right: 100px;
 }
 
 .sidebar_box {
