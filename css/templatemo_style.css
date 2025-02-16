@@ -120,8 +120,10 @@ em { color: #e55822; }
 	
 	
 }
-/* 后加 */
+/* 后加,滑动 */
 #content_g {
+	width: 600px;
+
 height: 900px;
 	overflow-y: auto;
 }
