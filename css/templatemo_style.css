@@ -120,8 +120,8 @@ em { color: #e55822; }
 #content_g {
 	float: left;
 	width: 620px;
-	height: 850px;
-	overflow-y: auto;
+	height: 880px;
+	overflow-y: hidden;
 	overflow-x: hidden;
 }
 #content p { margin-bottom: 15px; }
