@@ -116,6 +116,8 @@ em { color: #e55822; }
 #content {
 	float: left;
 	width: 600px;
+	height: 80vh;
+	overflow-y: auto;
 }
 
 #content p { margin-bottom: 15px; }
