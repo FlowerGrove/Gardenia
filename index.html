@@ -11,6 +11,7 @@
             --accent: #e74c3c;
             --line: 1px solid #ecf0f1;
             --gap: 2rem;
+            --footer-text: #95a5a6;
         }
 
         * {
@@ -25,7 +26,7 @@
             background: #f8f9fa;
         }
 
-        /* 增强标题栏 */
+        /* 标题栏 */
         .header {
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(5px);
@@ -82,7 +83,7 @@
             width: 100%;
         }
 
-        /* 宫格布局系统 */
+        /* 宫格布局 */
         .grid-container {
             max-width: 1200px;
             margin: 4rem auto;
@@ -92,7 +93,7 @@
             gap: var(--gap);
         }
 
-        /* 博客卡片设计 */
+        /* 博客卡片 */
         .blog-card {
             background: white;
             border-radius: 8px;
@@ -160,6 +161,56 @@
             margin-bottom: 1.5rem;
         }
 
+        /* 底部声明 */
+        .footer {
+            border-top: var(--line);
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--footer-text);
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(2px);
+            line-height: 1.8;
+        }
+
+        .footer p:first-child {
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        /* 返回按钮 */
+        .nav-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, background 0.3s, opacity 0.3s;
+            z-index: 1000;
+            border: none;
+            opacity: 0.9;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-3px);
+            background: #c0392b;
+            opacity: 1;
+            box-shadow: 0 7px 20px rgba(0,0,0,0.15);
+        }
+
+        .nav-button::after {
+            content: "↑";
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .nav-container {
@@ -175,6 +226,13 @@
 
             .card-image {
                 height: 150px;
+            }
+
+            .nav-button {
+                bottom: 1rem;
+                right: 1rem;
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
@@ -197,18 +255,11 @@
         <article class="blog-card">
             <div class="card-image">
                 <img src="https://picsum.photos/400/300?random=1" alt="配图">
-                <img src="https://picsum.photos/400/300?random=1" alt="配图">
-                <img src="https://picsum.photos/400/300?random=1" alt="配图">
-                <img src="https://picsum.photos/400/300?random=1" alt="配图">
-
             </div>
             <div class="card-content">
                 <div class="card-meta">
                     <span>2023.10.15</span>
-<<<<<<< HEAD
-=======
-                    
->>>>>>> a0308864945efce062823724dd572e0e6bfaf686
+                    <span>· 8 分钟阅读</span>
                 </div>
                 <span class="card-tag">城市观察</span>
                 <h2 class="card-title">玻璃幕墙中的晨昏线</h2>
@@ -226,10 +277,7 @@
             <div class="card-content">
                 <div class="card-meta">
                     <span>2023.10.12</span>
-<<<<<<< HEAD
-=======
-                    
->>>>>>> a0308864945efce062823724dd572e0e6bfaf686
+                    <span>· 12 分钟阅读</span>
                 </div>
                 <span class="card-tag">数字生活</span>
                 <h2 class="card-title">像素世界的呼吸节奏</h2>
@@ -247,44 +295,7 @@
             <div class="card-content">
                 <div class="card-meta">
                     <span>2023.10.08</span>
-<<<<<<< HEAD
-                </div>
-                <span class="card-tag">生活美学</span>
-                <h2 class="card-title">咖啡渍的时间图谱</h2>
-                <p class="card-excerpt">
-                    杯底残留的咖啡渍迹，无意间记录着不同时段的浓度曲线。这些褐色的抽象画作，是时间流逝的另一种注释...
-                </p>
-            </div>
-        </article>
-
-         <!-- 博客卡片 4 -->
-         <article class="blog-card">
-            <div class="card-image">
-                <img src="https://picsum.photos/400/300?random=3" alt="配图">
-            </div>
-            <div class="card-content">
-                <div class="card-meta">
-                    <span>2023.10.08</span>
-                </div>
-                <span class="card-tag">生活美学</span>
-                <h2 class="card-title">咖啡渍的时间图谱</h2>
-                <p class="card-excerpt">
-                    杯底残留的咖啡渍迹，无意间记录着不同时段的浓度曲线。这些褐色的抽象画作，是时间流逝的另一种注释...
-                </p>
-            </div>
-        </article>
-
-         <!-- 博客卡片 5 -->
-         <article class="blog-card">
-            <div class="card-image">
-                <img src="https://picsum.photos/400/300?random=3" alt="配图">
-            </div>
-            <div class="card-content">
-                <div class="card-meta">
-                    <span>2023.10.08</span>
-=======
-                   
->>>>>>> a0308864945efce062823724dd572e0e6bfaf686
+                    <span>· 6 分钟阅读</span>
                 </div>
                 <span class="card-tag">生活美学</span>
                 <h2 class="card-title">咖啡渍的时间图谱</h2>
@@ -294,5 +305,21 @@
             </div>
         </article>
     </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2023 阿花的小日志 · 记录思考的每一立方厘米</p>
+        </div>
+    </footer>
+
+    <button class="nav-button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"></button>
+
+    <script>
+        // 滚动显示/隐藏返回按钮
+        window.addEventListener('scroll', () => {
+            const btn = document.querySelector('.nav-button');
+            btn.style.opacity = window.scrollY > 300 ? 1 : 0;
+        });
+    </script>
 </body>
 </html>
