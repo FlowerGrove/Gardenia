@@ -117,7 +117,12 @@ em { color: #e55822; }
 	float: left;
 	width: 600px;
 }
-
+#content_g {
+	float: left;
+	width: 600px;
+	height: 800px;
+	overflow-y: auto;
+}
 #content p { margin-bottom: 15px; }
 
 .content_box {
