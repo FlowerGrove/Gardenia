@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="image/apple.png" type="image/png">
     <title>格间日志</title>
     <style>
+        /* css */
         :root {
             --primary: #2d3436;
             --secondary: #636e72;
@@ -110,16 +112,28 @@
         }
 
         .card-image {
-            height: 200px;
+            width: 350px;
+            height: 380px;
             background: #eee;
             overflow: hidden;
             position: relative;
-        }
 
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 10px;
+           
+            background-color: #faf8f8;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        /* 一张图片 */
         .card-image img {
-            width: 100%;
-            height: 100%;
+            width: 170px;
+            height:170px;
             object-fit: cover;
+            
+            border-radius: 3px;
             transition: transform 0.4s;
         }
 
@@ -211,6 +225,67 @@
             font-weight: bold;
         }
 
+
+        
+        /* 图片放大缩略图样式 */
+        .thumbnail {
+            width: 300px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .thumbnail:hover {
+            transform: scale(1.05);
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 放大后的图片 */
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            animation: zoom 0.3s;
+        }
+
+        /* 关闭按钮 */
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #ddd;
+        }
+        @keyframes zoom {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
         /* 响应式设计 */
         @media (max-width: 768px) {
             .nav-container {
@@ -237,6 +312,7 @@
         }
     </style>
 </head>
+<!-- 身体 -->
 <body>
     <header class="header">
         <nav class="nav-container">
@@ -251,20 +327,25 @@
     </header>
 
     <main class="grid-container">
-        <!-- 博客卡片 1 -->
+        <!-- 博客卡片 1 2025.2.16 -->
         <article class="blog-card">
             <div class="card-image">
-                <img src="https://picsum.photos/400/300?random=1" alt="配图">
+                    
+                    <img src="image/2025.2.16/1.jpg" alt="图片1" class="thumbnail" onclick="openModal(this)">
+                    <img src="image/2025.2.16/2.jpg" alt="图片2" class="thumbnail" onclick="openModal(this)">
+                    <img src="image/2025.2.16/3.jpg" alt="图片3" class="thumbnail" onclick="openModal(this)">
+                    <img src="image/2025.2.16/4.jpg" alt="图片4" class="thumbnail" onclick="openModal(this)">
+
+                    
             </div>
             <div class="card-content">
                 <div class="card-meta">
-                    <span>2023.10.15</span>
-                    <span>· 8 分钟阅读</span>
+                    <span>2025.2.16</span>
                 </div>
-                <span class="card-tag">城市观察</span>
-                <h2 class="card-title">玻璃幕墙中的晨昏线</h2>
+                <span class="card-tag">开心</span>
+                <!-- <h2 class="card-title">玻璃幕墙中的晨昏线</h2> -->
                 <p class="card-excerpt">
-                    现代建筑的垂直森林里，阳光在不同高度勾勒出时间的形状。那些被玻璃折射的光斑，是城市写给天空的诗行...
+                    一年没浇过几次水小红还活着，就是长得越来越丑了😂
                 </p>
             </div>
         </article>
@@ -277,7 +358,6 @@
             <div class="card-content">
                 <div class="card-meta">
                     <span>2023.10.12</span>
-                    <span>· 12 分钟阅读</span>
                 </div>
                 <span class="card-tag">数字生活</span>
                 <h2 class="card-title">像素世界的呼吸节奏</h2>
@@ -295,7 +375,6 @@
             <div class="card-content">
                 <div class="card-meta">
                     <span>2023.10.08</span>
-                    <span>· 6 分钟阅读</span>
                 </div>
                 <span class="card-tag">生活美学</span>
                 <h2 class="card-title">咖啡渍的时间图谱</h2>
@@ -306,9 +385,10 @@
         </article>
     </main>
 
+    <!-- 脚部 -->
     <footer class="footer">
         <div class="container">
-            <p>© 2023 阿花的小日志 · 记录思考的每一立方厘米</p>
+            <p>©Copyright 2024 阿花小日志 · 记录思考的每一刻</p>
         </div>
     </footer>
 
@@ -319,6 +399,36 @@
         window.addEventListener('scroll', () => {
             const btn = document.querySelector('.nav-button');
             btn.style.opacity = window.scrollY > 300 ? 1 : 0;
+        });
+    </script>
+
+
+
+    <!-- 图片模态框 -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="expandedImg">
+    </div>
+
+    <script>
+        // 打开模态框
+        function openModal(img) {
+            const modal = document.getElementById("modal");
+            const expandedImg = document.getElementById("expandedImg");
+            modal.style.display = "flex";
+            expandedImg.src = img.src;
+        }
+
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById("modal").style.display = "none";
+        }
+
+        // 点击ESC键关闭
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
         });
     </script>
 </body>
