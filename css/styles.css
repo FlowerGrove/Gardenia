@@ -1,17 +1,6 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-body {
-    background-color: #f5f5f5;
-    color: #333;
-}
-
 /* 按钮容器 */
 .button-container {
+    display: flex;
     position: fixed;
     top: 20px;
     left: 13px;
@@ -36,18 +25,18 @@ body {
 /* 侧边栏样式 */
 .sidebar {
     position: fixed;
-    left: -250px;
+    left: -250px; /* 默认隐藏在左侧 */
     top: 0;
     width: 200px;
     height: 100%;
     background: #fff;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     transition: 0.3s;
     z-index: 100; /* 确保侧边栏在内容之上 */
 }
 
 .sidebar.active {
-    left: 0;
+    left: 0; /* 展开时覆盖在内容上方 */
 }
 
 .sidebar-header {
@@ -77,13 +66,8 @@ body {
 
 /* 内容区域 */
 .content {
-    margin-left: 0;
     padding: 80px 40px 40px; /* 顶部留出按钮空间 */
-    transition: 0.3s;
-}
-
-.content.active {
-    margin-left: 250px;
+    transition: none; /* 移除内容的动画 */
 }
 
 /* 文章卡片样式 */
@@ -92,13 +76,13 @@ body {
     border-radius: 8px;
     padding: 30px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: 0.3s;
 }
 
 .post-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .post-date {
@@ -131,14 +115,20 @@ body {
     color: #5d7cbe;
 }
 
-
+footer {
+    color: black;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    bottom: 0;
+}
 
 .thumbnail {
     width: 300px;
     cursor: pointer;
     transition: transform 0.3s;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .thumbnail:hover {
@@ -164,7 +154,7 @@ body {
     max-width: 90%;
     max-height: 90%;
     border-radius: 8px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     animation: zoom 0.3s;
 }
 
@@ -193,3 +183,12 @@ body {
         transform: scale(1);
     }
 }
+
+
+
+
+
+
+
+
+
