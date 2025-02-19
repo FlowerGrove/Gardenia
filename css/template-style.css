@@ -78,7 +78,8 @@ article hr {
     background: none repeat scroll 0 0 #252D30;
 }
 img#background {
-    height: auto;
+    /* height: auto; */
+    height: 100%;
     position: fixed;
     top: 0;
     width: 100%;
