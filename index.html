@@ -1,195 +1,99 @@
 <!DOCTYPE html>
-<html lang="en-US">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Flowers</title>
-      <link rel="stylesheet" href="css/components.css">
-      <link rel="stylesheet" href="css/icons.css">
-      <link rel="stylesheet" href="css/responsee.css">
-      <link rel="stylesheet" href="owl-carousel/owl.carousel.css">
-      <link rel="stylesheet" href="owl-carousel/owl.theme.css">
-      <link rel="stylesheet" href="css/photo.css">
-
-
-      <!-- CUSTOM STYLE --> 
-      <link rel="stylesheet" href="css/template-style.css"> 
-      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-      <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-      <script type="text/javascript" src="js/jquery-ui.min.js"></script>  
-      <style>
-         
-      </style>
-      
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简约博客</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
         
+    </style>
+</head>
+<body>
+    <!-- 按钮容器 -->
+    <div class="button-container" id="button-container">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
 
+    <!-- 侧边栏 -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>博客菜单</h2>
+        </div>
+        <div class="sidebar-nav">
+            <a href="#">首页</a>
+            <a href="#">文章分类</a>
+            <a href="#">关于我</a>
+            <a href="#">联系</a>
+            <a href="#" onclick="toggleMenu()" style="color: #e74c3c;">关闭菜单</a>
+        </div>
+    </nav>
 
-   </head>
-   <body class="size-1140 align-content-left">
-      <div class="line">
-         <div id="content-wrapper">
-            <!-- LEFT COLUMN -->
-            <div class="s-12 m-4 l-3">
-               <div class="logo-box">
-                  <h1>虚者，心斋也</h1>
-               </div>
-               <div class="aside-nav">
-                  <ul class="chevron">
-                     <li><a href="index.html"><i class="icon-list"></i>杂记</a></li>
-                     <li><a href="gallery.html"><i class="icon-camera"></i>屏风</a></li>
-                     <li>
-                        <a href="about.html"><i class="icon-heart"></i>札记</a>
-                        <ul>
-                           <li><a href="about.html">About 1</a></li>
-                           <li><a href="about.html">About 2</a></li>
-                        </ul>
-                     </li>
-                     <li><a href="contact.html"><i class="icon-mail"></i>尺素</a></li>
-                  </ul>
-                  <div id="search" class="line" >
-                     <input class="s-11" name="" placeholder="Search" title="Search" type="text" /><a class="s-1" ><i class="icon-magnifying"></i></a>
-                  </div>
-                  <div id="social">
-                     <a target="_blank" href="https://www.facebook.com/myresponsee"><i class="icon-facebook_circle"></i></a> <a target="_blank" href="https://twitter.com/MyResponsee"><i class="icon-twitter_circle"></i></a>
-                  </div>
-               </div>
-            </div>
-            <!-- RIGHT COLUMN -->   
-            <div class="s-12 m-8 l-9">
-               <div class="box">
-                  <!-- HEADER -->     
-                  <!-- CAROUSEL --> 
-                  <div class="line">
-                    <div id="header-carousel" class="owl-carousel owl-theme margin-bottom">
-                      <div class="item"><img src="img/h1.avif" alt="" ></div>
-                      <div class="item"><img src="img/h2.avif" alt=""></div>
-                      <div class="item"><img src="img/h3.jpg" alt=""></div>
-                    </div>
-                  </div>
-                  <section>
-                     <article class="line">
-                        <div class="margin">
-                           <div class="s-12 m-12 l-2 date">
-                              <i class="icon-calendar"></i>
-                              <p><span>25</span><br />march</p>
-                           </div>
-                           <div class="s-12 m-12 l-10">
-                              <h2>Header of article</h2>
-                              <!-- <img src="img/2025.2.16/1.jpg" style="height: 150px;width: 100px;" alt=""  onclick="openModal(this)">
-                              <script>
-                                 function a(){
-                                    alert("阿花提示：您进行了点击图片操作");
-                                 }
-                              </script> -->
-                              <img src="img/2025.2.16/1.jpg" style="height: 150px;width: 100px;"   alt="示例图片" class="thumbnail" onclick="openModal(this)">
-                              <!-- 模态框 -->
-                              <div id="modal" class="modal" onclick="closeModal()">
-                                 <span class="close">&times;</span>
-                                 <img class="modal-content" id="expandedImg">
-                              </div>
-                              <!-- <img src="img/2025.2.16/1.jpg" alt="" style="height: 150px;width: 100px;"> -->
-                              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet 
-                                 dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit 
-                                 lobortis nisl ut aliquip ex ea commodo consequat.
-                              </p>
-                              <br />
-                              <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore 
-                                 eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril 
-                                 delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue 
-                                 nihil imperdiet doming id quod mazim placerat facer possim assum. 
-                              </p>
-                              <hr>
-                           </div>
-                        </div>
-                     </article>
-                     <article class="line">
-                        <div class="margin">
-                           <div class="s-12 m-12 l-2 date">
-                              <i class="icon-calendar"></i>
-                              <p><span>24</span><br />march</p>
-                           </div>
-                           <div class="s-12 m-12 l-10">
-                              <h2>Header of article</h2>
-                              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet 
-                                 dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit 
-                                 lobortis nisl ut aliquip ex ea commodo consequat.
-                              </p>
-                              <br />
-                              <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore 
-                                 eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril 
-                                 delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue 
-                                 nihil imperdiet doming id quod mazim placerat facer possim assum. 
-                              </p>
-                              <hr>
-                           </div>
-                        </div>
-                     </article>
-                     <article class="line">
-                        <div class="margin">
-                           <div class="s-12 m-12 l-2 date">
-                              <i class="icon-calendar"></i>
-                              <p><span>23</span><br />march</p>
-                           </div>
-                           <div class="s-12 m-12 l-10">
-                              <h2>Header of article</h2>
-                              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet 
-                                 dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit 
-                                 lobortis nisl ut aliquip ex ea commodo consequat.
-                              </p>
-                              <br />
-                              <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore 
-                                 eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril 
-                                 delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue 
-                                 nihil imperdiet doming id quod mazim placerat facer possim assum. 
-                              </p>
-                           </div>
-                        </div>
-                     </article>
-                  </section>
-               </div>
-               <!-- FOOTER --> 
-               <div class="box footer">
-                  <footer class="line">
-                     <div class="s-12 l-6">
-                        <p>Copyright 2025, 阿花的小世界<br />遨游在世界的大海里.</p>
-                     </div>
-                     <div class="s-12 l-6">
-                        <!-- <a class="right" target="_blank" href="http://www.mobanwang.com" title="网页模板">网页模板</a> -->
-                     </div>
-                  </footer>
-               </div>
-            </div>
+    <!-- 主要内容 -->
+    <main class="content" id="content">
+        <div class="post-card">
+            <!-- 缩略图 -->
+            <img src="img/2025.2.16/1.jpg" style="height: 150px;width: 100px;"   alt="示例图片" class="thumbnail" onclick="openModal(this)">
+
+            <div class="post-date">2024年3月1日</div>
+            <h2 class="post-title">我的第一篇文章</h2>
+            <p class="post-excerpt">这里是文章的摘要内容，简要介绍文章的主要观点和内容...</p>
+            <a href="#" class="read-more">阅读全文 →</a>
+        </div>
+
+        <div class="post-card">
+            <div class="post-date">2024年3月5日</div>
+            <h2 class="post-title">技术笔记分享</h2>
+            <p class="post-excerpt">关于现代Web开发的技巧和经验分享...</p>
+            <a href="#" class="read-more">阅读全文 →</a>
+        </div>
+
+        <div class="post-card">
+            <div class="post-date">2024年3月1日</div>
+            <h2 class="post-title">我的第一篇文章</h2>
+            <p class="post-excerpt">这里是文章的摘要内容，简要介绍文章的主要观点和内容...</p>
+            <a href="#" class="read-more">阅读全文 →</a>
          </div>
-      </div>
-      <img id="background" class="hide-s" src="img/back2.avif" alt="">
 
-
-
-      
-      <script type="text/javascript" src="js/scale.js"></script>        <!-- 脚本没问题 -->
-
-      <script type="text/javascript" src="js/responsee.js"></script>  
-
-
-       
-
-      <script type="text/javascript" src="owl-carousel/owl.carousel.js"></script>  
-      <script type="text/javascript">
-         jQuery(document).ready(function($) {		  
-            var owl = $('#header-carousel');
-            owl.owlCarousel({
-              nav: true,
-              dots: false,
-              items: 1,
-              loop: true,
-              navText: ["&#xf007","&#xf006"],
-              autoplay: true,
-              autoplayTimeout: 4000
-            });  
-         });	          
-      </script>
-       
-
+         <div class="post-card">
+            <div class="post-date">2024年3月5日</div>
+            <h2 class="post-title">技术笔记分享</h2>
+            <p class="post-excerpt">关于现代Web开发的技巧和经验分享...</p>
+            <a href="#" class="read-more">阅读全文 →</a>
+         </div>
+            
+    </main>
+    <script src="js/script.js"></script>
+    <script>
+        
+    </script>
     
-   </body>
+    <!-- 模态框 -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="expandedImg">
+    </div>
+    <script>
+      // 打开模态框
+      function openModal(img) {
+          console.log(img.src);
+          const modal = document.getElementById("modal");
+          const expandedImg = document.getElementById("expandedImg");
+          modal.style.display = "flex";
+          expandedImg.src = img.src;
+      }
+
+      // 关闭模态框
+      function closeModal() {
+          document.getElementById("modal").style.display = "none";
+      }
+
+      // 点击ESC键关闭
+      document.addEventListener('keydown', function(event) {
+          if (event.key === "Escape") {
+              closeModal();
+          }
+      })
+  </script>
+</body>
 </html>

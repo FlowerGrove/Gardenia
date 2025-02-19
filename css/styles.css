@@ -1,0 +1,195 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* 按钮容器 */
+.button-container {
+    position: fixed;
+    top: 20px;
+    left: 15px;
+    z-index: 101; /* 确保按钮在最上层 */
+    transition: 0.3s;
+}
+
+/* 菜单按钮样式 */
+.menu-btn {
+    font-size: 24px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #333;
+    transition: 0.3s;
+}
+
+.menu-btn:hover {
+    color: #518eb1;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 200px;
+    height: 100%;
+    background: #fff;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    z-index: 100; /* 确保侧边栏在内容之上 */
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar-header {
+    padding: 30px 20px;
+    border-bottom: 1px solid #eee;
+    background: #758cbe;
+    color: white;
+}
+
+.sidebar-nav {
+    padding: 20px;
+}
+
+.sidebar-nav a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.sidebar-nav a:hover {
+    background: #f8f8f8;
+    border-radius: 4px;
+    color: #53799c;
+}
+
+/* 内容区域 */
+.content {
+    margin-left: 0;
+    padding: 80px 40px 40px; /* 顶部留出按钮空间 */
+    transition: 0.3s;
+}
+
+.content.active {
+    margin-left: 250px;
+}
+
+/* 文章卡片样式 */
+.post-card {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.post-date {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.post-title {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.post-excerpt {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.read-more {
+    display: inline-block;
+    color: #4491a8;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.read-more:hover {
+    color: #5d7cbe;
+}
+
+
+
+.thumbnail {
+    width: 300px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.thumbnail:hover {
+    transform: scale(1.05);
+}
+
+/* 模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 放大后的图片 */
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    animation: zoom 0.3s;
+}
+
+/* 关闭按钮 */
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: #ddd;
+}
+
+/* 缩放动画 */
+@keyframes zoom {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
