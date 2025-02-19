@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>简约博客</title>
+    <title>Flower</title>
     <link rel="stylesheet" href="css/styles.css">
     <style>
         
@@ -13,19 +13,26 @@
     <!-- 按钮容器 -->
     <div class="button-container" id="button-container">
         <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        
+
     </div>
 
     <!-- 侧边栏 -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>博客菜单</h2>
+            <h2>FLower</h2>
         </div>
         <div class="sidebar-nav">
-            <a href="#">首页</a>
+            <a href="index.html">首页</a>
             <a href="#">文章分类</a>
             <a href="#">关于我</a>
             <a href="#">联系</a>
             <a href="#" onclick="toggleMenu()" style="color: #e74c3c;">关闭菜单</a>
+            <footer class="footer">
+               <div class="footer-content">
+                   <p>&copy;2025 阿花的小世界</p>
+               </div>
+           </footer>
         </div>
     </nav>
 
@@ -34,11 +41,13 @@
         <div class="post-card">
             <!-- 缩略图 -->
             <img src="img/2025.2.16/1.jpg" style="height: 150px;width: 100px;"   alt="示例图片" class="thumbnail" onclick="openModal(this)">
-
-            <div class="post-date">2024年3月1日</div>
-            <h2 class="post-title">我的第一篇文章</h2>
-            <p class="post-excerpt">这里是文章的摘要内容，简要介绍文章的主要观点和内容...</p>
-            <a href="#" class="read-more">阅读全文 →</a>
+            <img src="img/2025.2.16/2.jpg" style="height: 150px;width: 100px;"   alt="示例图片" class="thumbnail" onclick="openModal(this)">
+            <img src="img/2025.2.16/3.jpg" style="height: 150px;width: 100px;"   alt="示例图片" class="thumbnail" onclick="openModal(this)">
+            <img src="img/2025.2.16/4.jpg" style="height: 150px;width: 100px;"   alt="示例图片" class="thumbnail" onclick="openModal(this)">
+            <div class="post-date">2025年2月16日</div>
+            <!-- <h2 class="post-title">我的第一篇文章</h2> -->
+            <p class="post-excerpt">一年没浇过几次水小红还活着，就是长的越来越丑了😂</p>
+            <!-- <a href="#" class="read-more">阅读全文 →</a> -->
         </div>
 
         <div class="post-card">
