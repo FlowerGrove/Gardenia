@@ -33,26 +33,6 @@ document.addEventListener('click', function(e) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 打开模态框
 function openModal(img) {
     console.log(img.src);
