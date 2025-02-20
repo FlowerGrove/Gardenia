@@ -71,24 +71,66 @@ dropdownContainers.forEach(container => {
 
 
  // 音乐播放控制
- let currentAudio = null;
+//  let currentAudio = null;
 
- function togglePlay(audioId) {
-     const audio = document.getElementById(audioId);
-     const button = audio.previousElementSibling;
+//  function togglePlay(audioId) {
+//     const button = audio.previousElementSibling;
 
-     if (currentAudio && currentAudio !== audio) {
-         currentAudio.pause();
-         currentAudio.previousElementSibling.innerHTML = '▶ 播放';
-     }
+//      if (currentAudio && currentAudio !== audio) {
+//        const audio = document.getElementById(audioId);
+//         currentAudio.pause();
+//          currentAudio.previousElementSibling.innerHTML = '▶ 播放';
+//      }
 
-     if (audio.paused) {
-         audio.play();
-         button.innerHTML = '⏸ 暂停';
-         currentAudio = audio;
-     } else {
-         audio.pause();
-         button.innerHTML = '▶ 播放';
-         currentAudio = null;
-     }
- }
+//      if (audio.paused) {
+//          audio.play();
+//          button.innerHTML = '⏸ 暂停';
+//          currentAudio = audio;
+//      } else {
+//          audio.pause();
+//          button.innerHTML = '▶ 播放';
+//          currentAudio = null;
+//      }
+//  }
+
+
+let currentAudio = null;
+
+// 获取音频元素并设置事件监听
+const audio = document.getElementById('song');
+const playButton = document.querySelector('.play-btn');
+
+// 监听 canplay 事件，尝试自动播放
+audio.addEventListener('canplay', () => {
+    console.log("音频已加载足够数据，可以开始播放！");
+    // 尝试自动播放
+    audio.play().catch(err => {
+        console.error("自动播放失败，需要用户交互才能播放：", err);
+        // 提示用户手动播放
+        playButton.innerHTML = '<span>▶</span> 播放';
+    });
+});
+
+function togglePlay(audioId) {
+    const audio = document.getElementById(audioId);
+    const button = audio.previousElementSibling;
+
+    // 如果当前有音频正在播放且不是当前点击的音频
+    if (currentAudio && currentAudio !== audio) {
+        currentAudio.pause();
+        currentAudio.previousElementSibling.innerHTML = '<span>▶</span> 播放';
+    }
+
+    // 判断当前音频是否暂停
+    if (audio.paused) {
+        audio.play().catch(err => {
+            console.error("播放失败：", err);
+        });
+        button.innerHTML = '<span>⏸</span> 暂停';
+        currentAudio = audio;
+    } else {
+        audio.pause();
+        button.innerHTML = '<span>▶</span> 播放';
+        currentAudio = null;
+    }
+}
