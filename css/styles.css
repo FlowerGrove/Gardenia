@@ -4,7 +4,7 @@
     position: fixed;
     top: 20px;
     left: 13px;
-    z-index: 101; /* 确保按钮在最上层 */
+    z-index: 99; /* 确保按钮在下*/
     transition: 0.3s;
 }
 
@@ -66,9 +66,17 @@
 
 /* 内容区域 */
 .content {
-    padding: 80px 40px 40px; /* 顶部留出按钮空间 */
-    transition: none; /* 移除内容的动画 */
+    padding: 70px 50px 40px; /* 顶部留出按钮空间 */
+    transition: none; 
+    /* 移除内容的动画 */
 }
+.abc{
+    padding: 70px 50px 40px; /* 顶部留出按钮空间 */
+    transition: none; 
+    /* 移除内容的动画 */
+}
+
+
 
 /* 文章卡片样式 */
 .post-card {

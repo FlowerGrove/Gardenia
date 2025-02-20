@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/yu.css">
+    <link rel="icon" href="img/花.svg" type="image/svg+xml">
+</head>
+<body>
+    <!-- 按钮容器 -->
+    <div class="button-container" id="button-container">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        
+
+    </div>
+
+    <!-- 侧边栏 -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>FLower</h2>
+        </div>
+        <div class="sidebar-nav">
+            <a href="index.html">杂记</a>
+            <a href="#">札记</a>
+            <a href="yu.html">余</a>
+
+            <div class="dropdown-container">
+               <div class="dropdown">
+                   其他
+                   <svg class="arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                       <path d="M12 18L18 12L12 6L6 12L12 18Z" fill="currentColor" />
+                   </svg>
+               </div>
+               <ul class="dropdown-list">
+                   <li>列表项 1</li>
+                   <li>列表项 2</li>
+                   <li>列表项 3</li>
+                   <li>列表项 4</li>
+               </ul>
+           </div>
+
+            <a href="#" onclick="toggleMenu()" style="color: #e74c3c;">关闭菜单</a>
+            <footer class="footer">
+               <div class="footer-content">
+                   <p>&copy;2025 阿花的小世界</p>
+               </div>
+           </footer>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="content" id="content">
+    
+        <h4>歌曲名称1</h4>
+            <div class="tags">
+                <span class="tag">流行</span>
+                <span class="tag">电子</span>
+                <span class="tag">2023</span>
+            </div>
+        <button class="play-btn" onclick="togglePlay('song')">
+            <span>▶</span> 播放
+        </button>
+        <audio id="song" src="assets/01.mp3"></audio>
+
+        
+        <article>
+            <h1>文章标题</h1>
+            <p>这是文章的正文内容。文章可以包含多个段落、图片、视频等。</p>
+            <img src="example.jpg" alt="示例图片">
+            <p>文章的结尾部分。</p>
+            <h4>歌曲名称1</h4>
+            <div class="tags">
+                <span class="tag">流行</span>
+                <span class="tag">电子</span>
+                <span class="tag">2023</span>
+            </div>
+            <button class="play-btn" onclick="togglePlay('song')">
+                <span>▶</span> 播放
+            </button>
+            <audio id="song" src="assets/01.mp3"></audio>
+        </article>
+            
+                
+       
+        
+       
+
+    </main>
+    
+    <script src="js/script.js"></script>
+    
+    <!-- 模态框 -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="expandedImg">
+    </div>
+</body>
+</html>

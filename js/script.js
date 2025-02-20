@@ -1,10 +1,9 @@
+
 function toggleMenu() {
     const sidebar = document.getElementById('sidebar');
-    const content = document.getElementById('content');
     const buttonContainer = document.getElementById('button-container');
 
     sidebar.classList.toggle('active');
-    content.classList.toggle('active');
 
     // 判断侧边栏是否处于激活状态
     if (sidebar.classList.contains('active')) {
@@ -16,12 +15,41 @@ function toggleMenu() {
     }
 }
 
-// 点击内容区域关闭菜单
-document.getElementById('content').addEventListener('click', function(e) {
-    if(document.getElementById('sidebar').classList.contains('active')) {
+// 点击任意位置关闭菜单
+document.addEventListener('click', function(e) {
+    const sidebar = document.getElementById('sidebar');
+    const buttonContainer = document.getElementById('button-container');
+    const content = document.getElementById('content');
+
+    // 如果侧边栏处于激活状态，并且点击的位置不是按钮容器和侧边栏本身，则关闭侧边栏
+    if (sidebar.classList.contains('active') && 
+        !buttonContainer.contains(e.target) && 
+        !sidebar.contains(e.target)) {
         toggleMenu();
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -59,3 +87,28 @@ dropdownContainers.forEach(container => {
         dropdown.classList.toggle('active');
     });
 });
+
+
+
+ // 音乐播放控制
+ let currentAudio = null;
+
+ function togglePlay(audioId) {
+     const audio = document.getElementById(audioId);
+     const button = audio.previousElementSibling;
+
+     if (currentAudio && currentAudio !== audio) {
+         currentAudio.pause();
+         currentAudio.previousElementSibling.innerHTML = '▶ 播放';
+     }
+
+     if (audio.paused) {
+         audio.play();
+         button.innerHTML = '⏸ 暂停';
+         currentAudio = audio;
+     } else {
+         audio.pause();
+         button.innerHTML = '▶ 播放';
+         currentAudio = null;
+     }
+ }
