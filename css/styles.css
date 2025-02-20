@@ -123,6 +123,8 @@ footer {
     bottom: 0;
 }
 
+
+/* 放大图片 */
 .thumbnail {
     width: 300px;
     cursor: pointer;
@@ -186,7 +188,7 @@ footer {
 
 
 
-
+/* 下拉列表 */
 .dropdown-container {
     position: relative;
     margin-bottom: 20px;
