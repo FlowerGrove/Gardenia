@@ -187,7 +187,51 @@ footer {
 
 
 
-
+.dropdown-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+.dropdown {
+    cursor: pointer;
+    display: block;
+    font-size: 1em;
+    color: #333;
+    text-decoration: none;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 5px;
+    position: relative;
+}
+.dropdown:hover {
+    background: #e0e0e0;
+}
+.dropdown .arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+    width: 20px; /* 根据你的SVG图标大小调整 */
+    height: 20px;
+}
+.dropdown.active .arrow {
+    transform: translateY(-50%) rotate(180deg); /* 旋转图标 */
+}
+.dropdown-list {
+    display: none; /* 默认隐藏 */
+    margin-top: 10px;
+    padding: 0;
+    list-style-type: none;
+}
+.dropdown-list li {
+    background: #f5f5f5;
+    padding: 8px 15px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+.dropdown-list li:hover {
+    background: #e0e0e0;
+}
 
 
 

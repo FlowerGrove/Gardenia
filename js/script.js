@@ -22,3 +22,40 @@ document.getElementById('content').addEventListener('click', function(e) {
         toggleMenu();
     }
 });
+
+
+
+// 打开模态框
+function openModal(img) {
+    console.log(img.src);
+    const modal = document.getElementById("modal");
+    const expandedImg = document.getElementById("expandedImg");
+    modal.style.display = "flex";
+    expandedImg.src = img.src;
+}
+
+// 关闭模态框
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+// 点击ESC键关闭
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Escape") {
+        closeModal();
+    }
+})
+
+
+
+const dropdownContainers = document.querySelectorAll('.dropdown-container');
+
+dropdownContainers.forEach(container => {
+    const dropdown = container.querySelector('.dropdown');
+    const dropdownList = container.querySelector('.dropdown-list');
+
+    dropdown.addEventListener('click', () => {
+        dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
+        dropdown.classList.toggle('active');
+    });
+});

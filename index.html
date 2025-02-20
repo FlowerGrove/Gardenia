@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flower</title>
     <link rel="stylesheet" href="css/styles.css">
-    <style>
-        
-    </style>
+    <link rel="icon" href="img/花.svg" type="image/svg+xml">
 </head>
 <body>
     <!-- 按钮容器 -->
@@ -24,9 +22,24 @@
         </div>
         <div class="sidebar-nav">
             <a href="index.html">杂记</a>
-            <a href="#">其他</a>
+            <a href="#">札记</a>
             <a href="#">余</a>
-            <a href="#">尺素</a>
+
+            <div class="dropdown-container">
+               <div class="dropdown">
+                   其他
+                   <svg class="arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                       <path d="M12 18L18 12L12 6L6 12L12 18Z" fill="currentColor" />
+                   </svg>
+               </div>
+               <ul class="dropdown-list">
+                   <li>列表项 1</li>
+                   <li>列表项 2</li>
+                   <li>列表项 3</li>
+                   <li>列表项 4</li>
+               </ul>
+           </div>
+
             <a href="#" onclick="toggleMenu()" style="color: #e74c3c;">关闭菜单</a>
             <footer class="footer">
                <div class="footer-content">
@@ -71,36 +84,17 @@
             
     </main>
     <script src="js/script.js"></script>
-    <script>
-        
-    </script>
     
     <!-- 模态框 -->
     <div id="modal" class="modal" onclick="closeModal()">
         <span class="close">&times;</span>
         <img class="modal-content" id="expandedImg">
     </div>
-    <script>
-      // 打开模态框
-      function openModal(img) {
-          console.log(img.src);
-          const modal = document.getElementById("modal");
-          const expandedImg = document.getElementById("expandedImg");
-          modal.style.display = "flex";
-          expandedImg.src = img.src;
-      }
+   
+      
 
-      // 关闭模态框
-      function closeModal() {
-          document.getElementById("modal").style.display = "none";
-      }
 
-      // 点击ESC键关闭
-      document.addEventListener('keydown', function(event) {
-          if (event.key === "Escape") {
-              closeModal();
-          }
-      })
-  </script>
+
+
 </body>
 </html>
