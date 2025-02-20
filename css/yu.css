@@ -40,13 +40,13 @@
     background: #4ade80;
     color: white;
     border: none;
-    padding: 0.8rem 1.5rem;
+    /* padding: 0.8rem 1.5rem; */
     border-radius: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
 }
 
 .play-btn:hover {
@@ -62,6 +62,7 @@ audio {
 
 
 .grid-container {
+    
     display: grid;
     grid-template-columns: repeat(3, 200px); /* 3列，每列100px */
     grid-template-rows: repeat(3, 200px); /* 3行，每行100px */
@@ -72,6 +73,7 @@ audio {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .grid-item0 {
+    gap: 10px;
     background-color: #e0e0e0;
     display: flex;
     justify-content: center;
