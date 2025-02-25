@@ -1,0 +1,89 @@
+
+
+
+/* 音乐卡片 */
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.music-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    width: 130px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+
+.music-card:hover {
+    transform: translateY(-5px);
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.tag {
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.play-btn {
+    background: #4ade80;
+    color: white;
+    border: none;
+    /* padding: 0.8rem 1.5rem; */
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* margin-top: 1rem; */
+}
+
+.play-btn:hover {
+    background: #22c55e;
+}
+
+audio {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+
+
+
+.grid-container {
+    
+    display: grid;
+    grid-template-columns: repeat(3, 200px); /* 3列，每列100px */
+    grid-template-rows: repeat(3, 200px); /* 3行，每行100px */
+    gap: 10px; /* 单元格之间的间距 */
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.grid-item0 {
+    gap: 10px;
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: #333;
+    border-radius: 5px;
+    cursor: pointer;/* 鼠标变化 */
+    transition: background-color 0.3s ease;
+}
+.grid-item:hover {
+    background-color: #d0d0d0;
+}
