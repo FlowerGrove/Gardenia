@@ -70,28 +70,6 @@ dropdownContainers.forEach(container => {
 
 
 
- // 音乐播放控制
-//  let currentAudio = null;
-
-//  function togglePlay(audioId) {
-//     const button = audio.previousElementSibling;
-
-//      if (currentAudio && currentAudio !== audio) {
-//        const audio = document.getElementById(audioId);
-//         currentAudio.pause();
-//          currentAudio.previousElementSibling.innerHTML = '▶ 播放';
-//      }
-
-//      if (audio.paused) {
-//          audio.play();
-//          button.innerHTML = '⏸ 暂停';
-//          currentAudio = audio;
-//      } else {
-//          audio.pause();
-//          button.innerHTML = '▶ 播放';
-//          currentAudio = null;
-//      }
-//  }
 
 
 let currentAudio = null;
@@ -108,7 +86,14 @@ audio.addEventListener('canplay', () => {
         console.error("自动播放失败，需要用户交互才能播放：", err);
         // 提示用户手动播放
         playButton.innerHTML = '<span>▶</span> 播放';
+        alert("自动播放被阻止，请点击播放按钮手动播放。");
     });
+});
+
+// 如果音频加载失败（例如文件路径错误或被浏览器阻止）
+audio.addEventListener('error', () => {
+    console.error("音频加载失败，请检查音频文件路径或网络连接。");
+    playButton.innerHTML = '<span>❌</span> 加载失败';
 });
 
 function togglePlay(audioId) {
@@ -125,6 +110,7 @@ function togglePlay(audioId) {
     if (audio.paused) {
         audio.play().catch(err => {
             console.error("播放失败：", err);
+            alert("播放失败，请检查音频文件或网络连接。");
         });
         button.innerHTML = '<span>⏸</span> 暂停';
         currentAudio = audio;
@@ -134,3 +120,7 @@ function togglePlay(audioId) {
         currentAudio = null;
     }
 }
+
+
+
+

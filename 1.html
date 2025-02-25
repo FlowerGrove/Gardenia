@@ -3,122 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>动态响应式相册</title>
+    <title>独立操作卡片</title>
     <style>
-        /* 重置默认样式 */
-        body, ul, li {
-            margin: 0;
-            padding: 0;
+        .card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            display: inline-block;
+            width: 200px;
+            text-align: center;
         }
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        /* 容器样式 */
-        .album-container {
-            max-width: 1200px;
-            margin: 20px auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        /* 图片项样式 */
-        .photo-item {
-            width: calc(33.333% - 10px); /* 九宫格布局，每行三列 */
-            position: relative;
-        }
-
-        .photo-item img {
+        .card img {
             width: 100%;
             height: auto;
-            display: block;
-            border-radius: 8px; /* 圆角效果 */
-        }
-
-        /* 查看更多按钮样式 */
-        .view-more {
-            width: calc(33.333% - 10px);
-            text-align: center;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border-radius: 8px;
-            cursor: pointer;
-            color: #333;
-            font-weight: bold;
-        }
-
-        /* 响应式调整 */
-        @media (max-width: 768px) {
-            .photo-item, .view-more {
-                width: calc(50% - 10px); /* 在小屏幕上每行两列 */
-            }
-        }
-
-        @media (max-width: 480px) {
-            .photo-item, .view-more {
-                width: 100%; /* 在手机屏幕上每行一列 */
-            }
-        }
-
-        /* 隐藏超出部分的样式 */
-        .hidden {
-            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="album-container" id="albumContainer">
-        <!-- 图片项 -->
-        <div class="photo-item">
-            <img src="img/2022.4/1.jpg" style="height: 80px;width: 120px;" alt="Photo 1">
+    <div id="cards-container">
+        <div class="card">
+            <h3>卡片1</h3>
+            <img src="https://via.placeholder.com/200x100" alt="Placeholder">
+            <div class="content">内容1</div>
         </div>
-        <div class="photo-item">
-            <img src="img/2022.4/1.jpg" style="height: 80px;width: 120px;" alt="Photo 2">
+        <div class="card">
+            <h3>卡片2</h3>
+            <img src="https://via.placeholder.com/200x100" alt="Placeholder">
+            <div class="content">内容2</div>
         </div>
-        <div class="photo-item">
-            <img src="img/2022.4/1.jpg" style="height: 80px;width: 120px;"  alt="Photo 3">
+        <div class="card">
+            <h3>卡片3</h3>
+            <img src="https://via.placeholder.com/200x100" alt="Placeholder">
+            <div class="content">内容3</div>
         </div>
-        <div class="photo-item hidden">
-            <img src="img/2022.4/1.jpg"  style="height: 80px;width: 120px;"  alt="Photo 4">
-        </div>
-        <div class="photo-item hidden">
-            <img src="img/2022.4/1.jpg" style="height: 80px;width: 120px;"  alt="Photo 5">
-        </div>
-        <div class="photo-item hidden">
-            <img src="img/2022.4/1.jpg" style="height: 80px;width: 120px;"  alt="Photo 6">
-        </div>
-        <!-- 查看更多按钮 -->
-        <div class="view-more" id="viewMoreButton">查看更多</div>
     </div>
 
     <script>
-        // 获取按钮和所有图片项
-        const viewMoreButton = document.getElementById('viewMoreButton');
-        const photoItems = document.querySelectorAll('.photo-item');
+        // 获取容器
+        const cardsContainer = document.getElementById("cards-container");
 
-        // 定义一个变量来控制显示状态
-        let isExpanded = false;
+        // 使用事件委托
+        cardsContainer.addEventListener("click", function(event) {
+            // 确保点击的是卡片内部元素
+            const card = event.target.closest(".card");
+            if (!card) return;
 
-        // 点击按钮时切换显示状态
-        viewMoreButton.addEventListener('click', () => {
-            // 切换状态
-            isExpanded = !isExpanded;
+            // 操作目标卡片内部的元素
+            const img = card.querySelector("img");
+            const content = card.querySelector(".content");
 
-            // 根据状态显示或隐藏图片
-            photoItems.forEach((item, index) => {
-                if (index >= 3) { // 从第4张图片开始控制显示
-                    if (isExpanded) {
-                        item.classList.remove('hidden'); // 显示图片
-                    } else {
-                        item.classList.add('hidden'); // 隐藏图片
-                    }
-                }
-            });
+            // 修改图片和内容（示例）
+            img.src = "https://via.placeholder.com/200x100?text=Changed";
+            content.textContent = "内容已更新！";
 
-            // 更新按钮文本
-            viewMoreButton.textContent = isExpanded ? '收起' : '查看更多';
+            console.log("操作了卡片：", card.querySelector("h3").textContent);
         });
     </script>
 </body>
