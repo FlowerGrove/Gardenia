@@ -83,7 +83,7 @@ audio.addEventListener('canplay', () => {
     console.log("音频已加载足够数据，可以开始播放！");
     // 尝试自动播放
     audio.play().catch(err => {
-        console.error("自动播放失败，需要用户交互才能播放：", err);
+        // console.error("自动播放失败，需要用户交互才能播放：", err);
         // 提示用户手动播放
         playButton.innerHTML = '<span>▶</span> 播放';
         alert("自动播放被阻止，请点击播放按钮手动播放。");
