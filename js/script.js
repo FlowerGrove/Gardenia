@@ -14,7 +14,7 @@ function toggleMenu() {
         buttonContainer.style.display = 'block';
     }
 }
-
+//侧边栏
 // 点击任意位置关闭菜单
 document.addEventListener('click', function(e) {
     const sidebar = document.getElementById('sidebar');
@@ -32,7 +32,7 @@ document.addEventListener('click', function(e) {
 
 
 
-
+//图片放大
 // 打开模态框
 function openModal(img) {
     console.log(img.src);
@@ -41,12 +41,10 @@ function openModal(img) {
     modal.style.display = "flex";
     expandedImg.src = img.src;
 }
-
 // 关闭模态框
 function closeModal() {
     document.getElementById("modal").style.display = "none";
 }
-
 // 点击ESC键关闭
 document.addEventListener('keydown', function(event) {
     if (event.key === "Escape") {
@@ -55,9 +53,8 @@ document.addEventListener('keydown', function(event) {
 })
 
 
-
+//菜单下拉列表
 const dropdownContainers = document.querySelectorAll('.dropdown-container');
-
 dropdownContainers.forEach(container => {
     const dropdown = container.querySelector('.dropdown');
     const dropdownList = container.querySelector('.dropdown-list');
@@ -72,55 +69,55 @@ dropdownContainers.forEach(container => {
 
 
 
-let currentAudio = null;
+//上一页下一页
+let currentPage = 1;
+const cardsPerPage = 5;
+const totalCards = document.querySelectorAll('.card').length;
 
-// 获取音频元素并设置事件监听
-const audio = document.getElementById('song');
-const playButton = document.querySelector('.play-btn');
+function showCards() {
+    const start = (currentPage - 1) * cardsPerPage;
+    const end = start + cardsPerPage;
 
-// 监听 canplay 事件，尝试自动播放
-audio.addEventListener('canplay', () => {
-    console.log("音频已加载足够数据，可以开始播放！");
-    // 尝试自动播放
-    audio.play().catch(err => {
-        // console.error("自动播放失败，需要用户交互才能播放：", err);
-        // 提示用户手动播放
-        playButton.innerHTML = '<span>▶</span> 播放';
-        alert("自动播放被阻止，请点击播放按钮手动播放。");
+    document.querySelectorAll('.card').forEach((card, index) => {
+        if (index >= start && index < end) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
     });
-});
 
-// 如果音频加载失败（例如文件路径错误或被浏览器阻止）
-audio.addEventListener('error', () => {
-    console.error("音频加载失败，请检查音频文件路径或网络连接。");
-    playButton.innerHTML = '<span>❌</span> 加载失败';
-});
+    // 更新按钮状态
+    document.getElementById('prevButton').disabled = currentPage === 1;
+    document.getElementById('nextButton').disabled = currentPage === Math.ceil(totalCards / cardsPerPage);
+}
 
-function togglePlay(audioId) {
-    const audio = document.getElementById(audioId);
-    const button = audio.previousElementSibling;
-
-    // 如果当前有音频正在播放且不是当前点击的音频
-    if (currentAudio && currentAudio !== audio) {
-        currentAudio.pause();
-        currentAudio.previousElementSibling.innerHTML = '<span>▶</span> 播放';
-    }
-
-    // 判断当前音频是否暂停
-    if (audio.paused) {
-        audio.play().catch(err => {
-            console.error("播放失败：", err);
-            alert("播放失败，请检查音频文件或网络连接。");
-        });
-        button.innerHTML = '<span>⏸</span> 暂停';
-        currentAudio = audio;
-    } else {
-        audio.pause();
-        button.innerHTML = '<span>▶</span> 播放';
-        currentAudio = null;
+function nextPage() {
+    if (currentPage < Math.ceil(totalCards / cardsPerPage)) {
+        currentPage++;
+        showCards();
     }
 }
 
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        showCards();
+    }
+}
+
+// 初始化
+showCards();
 
 
 
+
+
+
+
+
+
+
+
+
+
+ 

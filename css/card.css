@@ -1,0 +1,70 @@
+.container {
+    width: 100%; /* 卡片容器宽度自适应 */
+    max-width: 400px; /* 最大宽度限制，避免在大屏幕上显示过宽 */
+    margin-bottom: 20px;
+    overflow: hidden; /* 隐藏超出部分 */
+}
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+    background-color: #f8f8f8;
+    min-height: 100vh; 
+}
+.card {
+    width: 100%; /* 卡片宽度占满容器 */
+    height: 100px; /* 卡片高度 */
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-bottom: 10px; /* 卡片间距 */
+    transition: transform 0.3s ease;
+    box-sizing: border-box; /* 防止边框影响宽度 */
+}
+
+.card:hover {
+    transform: scale(1.05);
+    background-color: #e0e0e0;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #ccc;
+}
+
+@media (max-width: 600px) {
+    /* 针对小屏幕设备的样式调整 */
+    .card {
+        height: 80px; /* 卡片高度调整为更紧凑 */
+        font-size: 14px; /* 字体大小调整为更小 */
+    }
+
+    button {
+        padding: 8px 16px; /* 按钮尺寸调整为更小 */
+        font-size: 14px;
+    }
+}

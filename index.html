@@ -23,7 +23,7 @@
         </div>
         <div class="sidebar-nav">
             <a href="index.html">杂记</a>
-            <a href="#">札记</a>
+            <a href="cardlist.html">札记</a>
             <a href="yu0.html">余</a>
 
             <div class="dropdown-container">
@@ -60,7 +60,6 @@
             <img  src="img/2025.2.16/3.jpg" style="height: 60px;width: 40px;"   alt="图片3" class="thumbnail" onclick="openModal(this)">
             <img  src="img/2025.2.16/4.jpg" style="height: 60px;width: 40px;"   alt="图片4" class="thumbnail" onclick="openModal(this)">
             <div class="post-date">2025年2月
-                <!-- <div  style=" display: inline;color: #281eaf; " id="viewMoreButton">查看更多</div> -->
             </div> 
             <p class="post-excerpt">一年没浇过几次水小红还活着，就是长的越来越丑了😂</p>
         </div>
@@ -104,45 +103,16 @@
     
     <script src="js/script.js"></script>
     
+
+
+
+
+
+
     <!-- 模态框 -->
     <div id="modal" class="modal" onclick="closeModal()">
         <span class="close">&times;</span>
         <img class="modal-content" id="expandedImg">
     </div>
-
-
-
-
-    <script>
-        // 获取按钮和所有图片项
-        const viewMoreButton = document.getElementById('viewMoreButton');
-        // const photoItems = document.querySelectorAll('.photo-item');
-
-        // 定义一个变量来控制显示状态
-        let isExpanded = false;
-
-        // 点击按钮时切换显示状态
-        viewMoreButton.addEventListener('click', () => {
-            // 切换状态
-            isExpanded = !isExpanded;
-            console.log('a');
-
-            // 根据状态显示或隐藏图片
-            photoItems.forEach((item, index) => {
-                if (index >= 2) { // 从第3张图片开始控制显示
-                    if (isExpanded) {
-                        item.classList.remove('hidden'); // 显示图片
-                    } else {
-                        item.classList.add('hidden'); // 隐藏图片
-                    }
-                }
-            });
-
-            // 更新按钮文本
-            viewMoreButton.textContent = isExpanded ? '收起' : '查看更多';
-        });
-    </script>
-
-    
 </body>
 </html>
