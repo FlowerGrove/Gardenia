@@ -4,16 +4,16 @@
     margin-bottom: 20px;
     overflow: hidden; /* 隐藏超出部分 */
 }
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
+ body {
+    /* font-family: Arial, sans-serif; */
+    /* display: flex; */
     flex-direction: column;
-    align-items: center;
-    margin: 0;
-    padding: 20px;
-    background-color: #f8f8f8;
-    min-height: 100vh; 
-}
+     /* align-items: center; */
+    /* margin: 0; */
+    /* padding: 20px; */
+    /* background-color: #f8f8f8; */
+    /* min-height: 100vh;   */
+} 
 .card {
     width: 100%; /* 卡片宽度占满容器 */
     height: 100px; /* 卡片高度 */

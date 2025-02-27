@@ -73,6 +73,7 @@
 .abc{
     padding: 70px 50px 40px; /* 顶部留出按钮空间 */
     transition: none; 
+    justify-items: center;
     /* 移除内容的动画 */
 }
 

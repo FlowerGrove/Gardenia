@@ -71,7 +71,7 @@ dropdownContainers.forEach(container => {
 
 //上一页下一页
 let currentPage = 1;
-const cardsPerPage = 5;
+const cardsPerPage = 10;
 const totalCards = document.querySelectorAll('.card').length;
 
 function showCards() {
