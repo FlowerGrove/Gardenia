@@ -1,112 +1,135 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Pagination</title>
     <style>
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-        }
-        
-        .cards {
+        /* 卡片容器样式 */
+        .card-container {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            flex-direction: column; /* 保持竖向排列 */
+            align-items: center; /* 水平居中对齐 */
+            gap: 10px; /* 卡片之间的间距 */
         }
 
+        /* 卡片样式 */
         .card {
-            min-height: 150px;
-            padding: 20px;
-            border-radius: 10px;
-            background: center/cover no-repeat;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            display: none; /* 默认隐藏 */
+            width: 300px;
+            height: 200px;
+            /* background-size: cover; */
+            /* background-position: center; */
+            border: 1px solid #ccc;
+            display: none; /* 默认隐藏所有卡片 */
         }
 
-        .card.active {
-            display: block; /* 显示当前页卡片 */
-        }
-
-        .controls {
-            margin-top: 20px;
+        /* 按钮容器样式 */
+        .button-container {
             display: flex;
-            gap: 10px;
             justify-content: center;
+            margin-top: 20px;
         }
 
+        /* 按钮样式 */
         button {
-            padding: 8px 20px;
+            margin: 0 10px;
+            padding: 10px 20px;
             cursor: pointer;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-        }
-
-        button:disabled {
-            background: #6c757d;
-            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="cards"></div>
-        <div class="controls">
-            <button id="prevBtn">上一页</button>
-            <button id="nextBtn">下一页</button>
+    <!-- 卡片容器 -->
+    <div class="card-container" id="cardContainer">
+        <!-- 卡片 1 -->
+        <div class="card" style="background-image: url('img/cardback.png');width: 100%;height: 100%;background-size: contain;
+        background-position: center; background-repeat: no-repeat; ">
+            <p>Card 1 Content</p>
         </div>
+        <!-- 卡片 2 -->
+        <div class="card" style="background-image: url('https://via.placeholder.com/300x200?text=Card+2');">
+            <p>Card 2 Content</p>
+        </div>
+        <!-- 卡片 3 -->
+        <div class="card" style="background-image: url('https://via.placeholder.com/300x200?text=Card+3');">
+            <p>Card 3 Content</p>
+        </div>
+        <!-- 卡片 4 -->
+        <div class="card" style="background-image: url('https://via.placeholder.com/300x200?text=Card+4');">
+            <p>Card 4 Content</p>
+        </div>
+        <!-- 卡片 5 -->
+        <div class="card" style="background-image: url('https://via.placeholder.com/300x200?text=Card+5');">
+            <p>Card 5 Content</p>
+        </div>
+        <!-- 卡片 6 -->
+        <div class="card" style="background-image: url('https://via.placeholder.com/300x200?text=Card+6');">
+            <p>Card 6 Content</p>
+        </div>
+        <!-- 卡片 7 -->
+        <div class="card" style="background-image: url('https://via.placeholder.com/300x200?text=Card+7');">
+            <p>Card 7 Content</p>
+        </div>
+        <!-- 卡片 8 -->
+        <div class="card" style="background-image: url('https://via.placeholder.com/300x200?text=Card+8');">
+            <p>Card 8 Content</p>
+        </div>
+        <!-- 卡片 9 -->
+        <div class="card" style="background-image: url('https://via.placeholder.com/300x200?text=Card+9');">
+            <p>Card 9 Content</p>
+        </div>
+        <!-- 卡片 10 -->
+        <div class="card" style="background-image: url('https://via.placeholder.com/300x200?text=Card+10');">
+            <p>Card 10 Content</p>
+        </div>
+    </div>
+    <!-- 按钮容器 -->
+    <div class="button-container">
+        <!-- 上一页按钮 -->
+        <button id="prevButton" onclick="prevPage()">Previous</button>
+        <!-- 下一页按钮 -->
+        <button id="nextButton" onclick="nextPage()">Next</button>
     </div>
 
     <script>
-        // 生成卡片数据（含随机背景）
-        const cardsData = Array.from({length: 10}, (_, i) => ({
-            content: `卡片 ${i+1}`, 
-            bg: `https://picsum.photos/600/150?random=${i}`
-        }));
+        // 获取卡片容器和所有卡片元素
+        const cardContainer = document.getElementById('cardContainer');
+        const cards = cardContainer.querySelectorAll('.card');
+        // 当前页码，初始为 1
+        let currentPage = 1;
+        // 每页显示的卡片数量
+        const cardsPerPage = 5;
 
-        // 初始化卡片
-        const cardsContainer = document.querySelector('.cards');
-        cardsData.forEach(data => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.style.backgroundImage = `url(${data.bg})`;
-            card.innerHTML = `
-                <div style="color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.5)">
-                    ${data.content}
-                    <!-- 在此自由添加内容 -->
-                </div>
-            `;
-            cardsContainer.appendChild(card);
-        });
-
-        // 分页逻辑
-        const cards = document.querySelectorAll('.card');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        let currentPage = 0;
-
-        function updatePagination() {
+        // 显示当前页的卡片
+        function showPage(page) {
+            // 计算起始索引和结束索引
+            const startIndex = (page - 1) * cardsPerPage;
+            const endIndex = startIndex + cardsPerPage;
+            // 遍历所有卡片
             cards.forEach((card, index) => {
-                card.classList.toggle('active', 
-                    index >= currentPage * 5 && 
-                    index < (currentPage + 1) * 5
-                );
+                // 如果索引在当前页范围内，则显示卡片，否则隐藏卡片
+                card.style.display = (index >= startIndex && index < endIndex) ? 'block' : 'none';
             });
-            prevBtn.disabled = currentPage === 0;
-            nextBtn.disabled = currentPage === 1;
         }
 
-        prevBtn.addEventListener('click', () => {
-            currentPage = Math.max(0, currentPage - 1);
-            updatePagination();
-        });
+        // 上一页按钮点击事件
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        }
 
-        nextBtn.addEventListener('click', () => {
-            currentPage = Math.min(1, currentPage + 1);
-            updatePagination();
-        });
+        // 下一页按钮点击事件
+        function nextPage() {
+            if (currentPage < Math.ceil(cards.length / cardsPerPage)) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        }
 
-        updatePagination(); // 初始显示
+        // 初始化显示第一页
+        showPage(currentPage);
     </script>
 </body>
 </html>
