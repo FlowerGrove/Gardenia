@@ -59,7 +59,7 @@ button:disabled {
 @media (max-width: 600px) {
     /* 针对小屏幕设备的样式调整 */
     .card {
-        height: 110px; /* 卡片高度调整为更紧凑 */
+        height: 130px; /* 卡片高度调整为更紧凑 */
         font-size: 14px; /* 字体大小调整为更小 */
     }
 
