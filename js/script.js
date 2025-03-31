@@ -109,7 +109,10 @@ function prevPage() {
 showCards();
 
 
-
+function showError() {
+    alert("未开发。");
+  }
+  
 
 
 
