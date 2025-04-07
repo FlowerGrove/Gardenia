@@ -3,10 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flower</title>
+    <title>花花草草的小世界 - 余</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/yu.css">
     <link rel="icon" href="img/花.svg" type="image/svg+xml">
+    <style>
+        /* 余页面样式 */
+        .yu-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .yu-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .yu-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .yu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .yu-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .yu-date {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .yu-content {
+            line-height: 1.6;
+            color: #444;
+        }
+        
+        .yu-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .yu-quote {
+            font-style: italic;
+            color: #666;
+            border-left: 3px solid #ddd;
+            padding-left: 15px;
+            margin: 15px 0;
+        }
+        
+        .yu-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .yu-tag {
+            background-color: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     <!-- 按钮容器 -->
@@ -17,62 +96,144 @@
     <!-- 侧边栏 -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>FLower</h2>
+            <h2>Flower</h2>
         </div>
         <div class="sidebar-nav">
-            <a href="index.html">杂记</a>
-            <a href="cardlist.html" onclick="showError()">札记</a>
-            <a href="yu0.html" onclick="showError()">余</a>
+            <a href="#" onclick="return handleMenuClick('杂记')">杂记</a>
+            <a href="#" onclick="return handleMenuClick('札记')">札记</a>
+            <a href="#" onclick="return handleMenuClick('余')">余</a>
 
             <div class="dropdown-container">
-               <div class="dropdown" onclick="showError()">
+               <div class="dropdown" onclick="toggleDropdown(this)">
                    其他
                    <svg class="arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                        <path d="M12 18L18 12L12 6L6 12L12 18Z" fill="currentColor" />
                    </svg>
                </div>
                <ul class="dropdown-list">
-                   <li>列表项 1</li>
-                   <li>列表项 2</li>
-                   <li>列表项 3</li>
-                   <li>列表项 4</li>
+                   <li><a href="#" onclick="return handleMenuClick('花卉图鉴')">花卉图鉴</a></li>
+                   <li><a href="#" onclick="return handleMenuClick('养护手册')">养护手册</a></li>
+                   <li><a href="#" onclick="return handleMenuClick('花语大全')">花语大全</a></li>
+                   <li><a href="#" onclick="return handleMenuClick('园艺工具')">园艺工具</a></li>
                </ul>
-           </div>
+            </div>
+
+            <a href="tool.html" class="nav-link">工具</a>
 
             <a href="#" onclick="toggleMenu()" style="color: #e74c3c;">关闭菜单</a>
             <footer class="footer">
                <div class="footer-content">
-                <p  style="font-size: small; left: -4px;">&copy;2025 阿花的小世界 </p>
-                <p style="font-size: small;">公众号:一堆花花草草</p>
-                <img src="img/gzh.jpg" style="height: 50px;width: 50px;"  class="thumbnail" onclick="openModal(this)">
-                <!-- <img src="img/wendang.png" style="height: 40px;width: 40px;"  class="thumbnail" onclick="openModal(this)"> -->
-
-
+                <p style="font-size: small; left: -4px;">&copy;2025 阿花的小世界</p>
+                <p style="font-size: small;">公众号: 一堆花花草草</p>
+                <img src="img/gzh.jpg" style="height: 50px;width: 50px;" class="thumbnail" onclick="openModal(this)" alt="公众号二维码">
                </div>
            </footer>
         </div>
     </nav>
 
     <!-- 主要内容 -->
-    <main class="abc" >
-        
+    <main class="content">
+        <div class="yu-container">
+            <!-- 余1 -->
+            <div class="yu-card">
+                <div class="yu-header">
+                    <h2 class="yu-title">花与诗：那些关于花的诗句</h2>
+                    <span class="yu-date">2025年3月20日</span>
+                </div>
+                <div class="yu-content">
+                    <p>自古以来，花卉就是诗人笔下常见的意象，寄托着诗人的情感和思想。以下是一些关于花的经典诗句：</p>
+                    
+                    <div class="yu-quote">
+                        "春色满园关不住，一枝红杏出墙来。" —— 叶绍翁《游园不值》
+                    </div>
+                    
+                    <p>这首诗描绘了春天园中红杏盛开的景象，表达了诗人对春天的热爱和对美好事物的向往。</p>
+                    
+                    <div class="yu-quote">
+                        "接天莲叶无穷碧，映日荷花别样红。" —— 杨万里《晓出净慈寺送林子方》
+                    </div>
+                    
+                    <p>这首诗描绘了西湖荷花盛开的壮丽景象，莲叶接天，荷花映日，色彩鲜明，意境优美。</p>
+                    
+                    <div class="yu-quote">
+                        "墙角数枝梅，凌寒独自开。遥知不是雪，为有暗香来。" —— 王安石《梅花》
+                    </div>
+                    
+                    <p>这首诗描绘了梅花在寒冬中独自绽放的景象，表达了梅花坚韧不拔的品质和诗人高洁的情操。</p>
+                    
+                    <div class="yu-tags">
+                        <span class="yu-tag">诗词</span>
+                        <span class="yu-tag">花卉</span>
+                        <span class="yu-tag">文学</span>
+                    </div>
+                </div>
+            </div>
             
+            <!-- 余2 -->
+            <div class="yu-card">
+                <div class="yu-header">
+                    <h2 class="yu-title">花与画：中国花鸟画的艺术</h2>
+                    <span class="yu-date">2025年2月15日</span>
+                </div>
+                <div class="yu-content">
+                    <p>中国花鸟画是中国传统绘画的重要门类，以描绘花卉、鸟兽为主要内容，具有悠久的历史和丰富的艺术内涵。</p>
+                    
+                    <p>花鸟画的发展经历了从写实到写意的过程。早期的花鸟画注重形似，追求对自然物象的精确描绘；而到了宋元以后，花鸟画逐渐向写意方向发展，画家更加注重表达自己的情感和思想。</p>
+                    
+                    <p>在花鸟画中，不同的花卉有着不同的象征意义。例如，梅花象征坚韧不拔，兰花象征高洁，竹子象征虚心，菊花象征隐逸。画家通过描绘这些花卉，表达自己的品格和情操。</p>
+                    
+                    <p>花鸟画的技法主要包括工笔和写意两种。工笔画注重细节的描绘，色彩艳丽，形象逼真；写意画则注重神韵的表达，笔墨简练，意境深远。</p>
+                    
+                    <div class="yu-tags">
+                        <span class="yu-tag">绘画</span>
+                        <span class="yu-tag">花鸟画</span>
+                        <span class="yu-tag">艺术</span>
+                    </div>
+                </div>
+            </div>
             
-                
-       
-        
-       
-
+            <!-- 余3 -->
+            <div class="yu-card">
+                <div class="yu-header">
+                    <h2 class="yu-title">花与食：可食花卉的美食探索</h2>
+                    <span class="yu-date">2025年1月5日</span>
+                </div>
+                <div class="yu-content">
+                    <p>花卉不仅可以观赏，还可以食用。许多花卉具有独特的香味和口感，可以用来制作各种美食。</p>
+                    
+                    <p>常见的可食花卉包括：</p>
+                    <ul>
+                        <li>玫瑰：可以用来制作玫瑰酱、玫瑰茶、玫瑰糕点等。</li>
+                        <li>桂花：可以用来制作桂花糖、桂花酒、桂花糕等。</li>
+                        <li>菊花：可以用来制作菊花茶、菊花酒、菊花糕等。</li>
+                        <li>茉莉：可以用来制作茉莉茶、茉莉糖等。</li>
+                        <li>槐花：可以用来制作槐花饼、槐花汤等。</li>
+                    </ul>
+                    
+                    <p>食用花卉时要注意以下几点：</p>
+                    <ol>
+                        <li>确保花卉没有喷洒农药，最好是自己种植的有机花卉。</li>
+                        <li>食用前要彻底清洗，去除灰尘和杂质。</li>
+                        <li>有些花卉可能含有过敏原，食用前要先了解其特性。</li>
+                        <li>不要过量食用，以免引起不适。</li>
+                    </ol>
+                    
+                    <div class="yu-tags">
+                        <span class="yu-tag">美食</span>
+                        <span class="yu-tag">可食花卉</span>
+                        <span class="yu-tag">烹饪</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
     
     <script src="js/script.js"></script>
   
-       
-    
     <!-- 模态框 -->
     <div id="modal" class="modal" onclick="closeModal()">
         <span class="close">&times;</span>
-        <img class="modal-content" id="expandedImg">
+        <img class="modal-content" id="expandedImg" alt="放大图片">
     </div>
 </body>
 </html>

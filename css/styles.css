@@ -39,29 +39,55 @@
     left: 0; /* 展开时覆盖在内容上方 */
 }
 
+/* 侧边栏标题样式 */
 .sidebar-header {
-    padding: 30px 20px;
+    padding: 20px;
+    text-align: left;  /* 改为左对齐 */
     border-bottom: 1px solid #eee;
-    background: #758cbe;
-    color: white;
 }
 
+.sidebar-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+    color: #333;
+    letter-spacing: 2px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    padding-left: 10px;  /* 添加左内边距 */
+}
+
+/* 侧边栏导航样式 */
 .sidebar-nav {
+    display: flex;
+    flex-direction: column;
     padding: 20px;
+    gap: 8px;  /* 减小导航项之间的间距 */
 }
 
 .sidebar-nav a {
-    display: block;
-    padding: 10px;
     color: #333;
     text-decoration: none;
-    transition: 0.2s;
+    padding: 8px 10px;  /* 减小内边距 */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
 .sidebar-nav a:hover {
-    background: #f8f8f8;
-    border-radius: 4px;
-    color: #53799c;
+    background-color: #f0f0f0;
+}
+
+/* 关闭菜单按钮样式 */
+.sidebar-nav a[style*="color: #e74c3c"] {
+    margin-top: 0;  /* 移除额外的上边距 */
+}
+
+/* 页脚样式 */
+.footer {
+    margin-top: 10px;  /* 减小页脚的上边距 */
+    padding-top: 10px; /* 添加一些内边距来分隔 */
+    border-top: 1px solid #eee; /* 添加一条分隔线 */
+    width: 100%;
+    bottom: 0;
 }
 
 /* 内容区域 */
@@ -203,48 +229,104 @@ footer {
 /* 下拉列表 */
 .dropdown-container {
     position: relative;
-    /* margin-bottom: 20px; */
+    margin: 0;
 }
+
 .dropdown {
     cursor: pointer;
-    display: block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 1em;
     color: #333;
     text-decoration: none;
-    padding: 10px;
+    padding: 8px 10px;  /* 与其他导航项保持一致的内边距 */
     background: #fff;
     border-radius: 5px;
-    position: relative;
+    transition: all 0.3s ease;
 }
+
 .dropdown:hover {
-    background: #e0e0e0;
+    background: #f8f8f8;
+    color: #53799c;
 }
+
 .dropdown .arrow {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
     transition: transform 0.3s ease;
-    width: 20px; /* 根据你的SVG图标大小调整 */
-    height: 20px;
 }
-.dropdown.active .arrow {
-    transform: translateY(-50%) rotate(180deg); /* 旋转图标 */
-}
+
 .dropdown-list {
-    display: none; /* 默认隐藏 */
-    margin-top: 10px;
-    padding: 0;
+    display: none;
+    margin-top: 5px;
+    padding: 5px 0;
     list-style-type: none;
-}
-.dropdown-list li {
-    background: #f5f5f5;
-    padding: 8px 15px;
-    margin-bottom: 5px;
+    background: #fff;
     border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.dropdown-list li:hover {
-    background: #e0e0e0;
+
+.dropdown-list li {
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-list li a {
+    display: block;
+    padding: 8px 15px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.dropdown-list li a:hover {
+    background: #f8f8f8;
+    color: #53799c;
+}
+
+/* 工具菜单样式 */
+.tools-container {
+    position: relative;
+    margin: 0;
+}
+
+.tools-grid {
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+}
+
+.tool-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.tool-item:hover {
+    background: #f8f8f8;
+    transform: translateY(-2px);
+}
+
+.tool-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 5px;
+}
+
+.tool-name {
+    font-size: 12px;
+    color: #333;
+    text-align: center;
 }
 
 

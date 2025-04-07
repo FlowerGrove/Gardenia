@@ -3,87 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flower</title>
+    <title>花花草草的小世界</title>
+    <!-- 样式表链接 -->
     <link rel="stylesheet" href="css/styles.css">
-   
+    <!-- 网站图标 -->
     <link rel="icon" href="img/花.svg" type="image/svg+xml">
 </head>
 <body>
-    <!-- 按钮容器 -->
+    <!-- 菜单切换按钮 -->
     <div class="button-container" id="button-container">
         <button class="menu-btn" onclick="toggleMenu()">☰</button>
-        
-
     </div>
 
-    <!-- 侧边栏 -->
+    <!-- 侧边导航栏 -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>FLower</h2>
+            <h2>Flower</h2>
         </div>
         <div class="sidebar-nav">
-            <a href="index.html">杂记</a>
-            <a href="cardlist.html" onclick="showError()">札记</a>
-            <a href="yu0.html" onclick="showError()">余</a>
+            <!-- 主导航链接 -->
+            <a href="#" onclick="return handleMenuClick('杂记')">杂记</a>
+            <a href="#" onclick="return handleMenuClick('札记')">札记</a>
+            <a href="#" onclick="return handleMenuClick('余')">余</a>
 
+            <!-- 下拉菜单 -->
             <div class="dropdown-container">
-               <div class="dropdown" onclick="showError()">
+               <div class="dropdown" onclick="toggleDropdown(this)">
                    其他
                    <svg class="arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                        <path d="M12 18L18 12L12 6L6 12L12 18Z" fill="currentColor" />
                    </svg>
                </div>
                <ul class="dropdown-list">
-                   <li > 
-                    <a href="#">列表项 1</a>
-                   </li>
-                   <li>列表项 2</li>
-                   <li>列表项 3</li>
-                   <li>列表项 4</li>
+                   <li><a href="#" onclick="return handleMenuClick('花卉图鉴')">花卉图鉴</a></li>
+                   <li><a href="#" onclick="return handleMenuClick('养护手册')">养护手册</a></li>
+                   <li><a href="#" onclick="return handleMenuClick('花语大全')">花语大全</a></li>
+                   <li><a href="#" onclick="return handleMenuClick('园艺工具')">园艺工具</a></li>
                </ul>
-           </div>
+            </div>
 
+            <div class="tools-container">
+               <div class="dropdown" onclick="toggleToolsGrid(this)">
+                   工具
+                   <svg class="arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                       <path d="M12 18L18 12L12 6L6 12L12 18Z" fill="currentColor" />
+                   </svg>
+               </div>
+               <div class="tools-grid">
+                   <a href="https://www.bilibili.com" target="_blank" class="tool-item">
+                       <img src="img/icons/bilibili.svg" alt="哔哩哔哩" class="tool-icon">
+                       <span class="tool-name">哔哩哔哩</span>
+                   </a>
+                   <a href="https://www.zhihu.com" target="_blank" class="tool-item">
+                       <img src="img/icons/zhihu.svg" alt="知乎" class="tool-icon">
+                       <span class="tool-name">知乎</span>
+                   </a>
+                   <a href="https://www.xiaohongshu.com" target="_blank" class="tool-item">
+                       <img src="img/icons/xiaohongshu.svg" alt="小红书" class="tool-icon">
+                       <span class="tool-name">小红书</span>
+                   </a>
+                   <a href="https://www.douyin.com" target="_blank" class="tool-item">
+                       <img src="img/icons/douyin.svg" alt="抖音" class="tool-icon">
+                       <span class="tool-name">抖音</span>
+                   </a>
+                   <a href="https://weibo.com" target="_blank" class="tool-item">
+                       <img src="img/icons/weibo.svg" alt="微博" class="tool-icon">
+                       <span class="tool-name">微博</span>
+                   </a>
+                   <a href="https://www.youtube.com" target="_blank" class="tool-item">
+                       <img src="img/icons/youtube.svg" alt="YouTube" class="tool-icon">
+                       <span class="tool-name">YouTube</span>
+                   </a>
+               </div>
+            </div>
+
+            <!-- 关闭菜单按钮 -->
             <a href="#" onclick="toggleMenu()" style="color: #e74c3c;">关闭菜单</a>
+
+            <!-- 页脚信息 -->
             <footer class="footer">
                <div class="footer-content">
-                   <p  style="font-size: small; left: -4px;">&copy;2025 阿花的小世界 </p>
-                   <p style="font-size: small;">公众号:一堆花花草草</p>
-                   <img src="img/gzh.jpg" style="height: 40px;width: 40px;"  class="thumbnail" onclick="openModal(this)">
-                   <!-- <img src="img/wendang.png" style="height: 40px;width: 40px;"  class="thumbnail" onclick="openModal(this)"> -->
-
-                </div>
+                   <p style="font-size: small; left: -4px;">&copy;2025 阿花的小世界</p>
+                   <p style="font-size: small;">公众号: 一堆花花草草</p>
+                   <img src="img/gzh.jpg" style="height: 40px;width: 40px;" class="thumbnail" onclick="openModal(this)" alt="公众号二维码">
+               </div>
            </footer>
         </div>
     </nav>
 
-    <!-- 主要内容 -->
-    <main class="content" >
-        <div class="post-card" >
-            <img  src="img/2025.2.16/1.jpg" style="height: 60px;width: 40px;"   alt="图片1" class="thumbnail" onclick="openModal(this)">
-            <img  src="img/2025.2.16/2.jpg" style="height: 60px;width: 40px;"   alt="图片2" class="thumbnail" onclick="openModal(this)">
-            <img  src="img/2025.2.16/3.jpg" style="height: 60px;width: 40px;"   alt="图片3" class="thumbnail" onclick="openModal(this)">
-            <img  src="img/2025.2.16/4.jpg" style="height: 60px;width: 40px;"   alt="图片4" class="thumbnail" onclick="openModal(this)">
-            <div class="post-date">2025年2月
-            </div> 
+    <!-- 主要内容区域 -->
+    <main class="content">
+        <!-- 文章卡片 -->
+        <div class="post-card">
+            <!-- 图片缩略图 -->
+            <img src="img/2025.2.16/1.jpg" style="height: 60px;width: 40px;" alt="小红花照片1" class="thumbnail" onclick="openModal(this)">
+            <img src="img/2025.2.16/2.jpg" style="height: 60px;width: 40px;" alt="小红花照片2" class="thumbnail" onclick="openModal(this)">
+            <img src="img/2025.2.16/3.jpg" style="height: 60px;width: 40px;" alt="小红花照片3" class="thumbnail" onclick="openModal(this)">
+            <img src="img/2025.2.16/4.jpg" style="height: 60px;width: 40px;" alt="小红花照片4" class="thumbnail" onclick="openModal(this)">
+            <!-- 文章日期和摘要 -->
+            <div class="post-date">2025年2月</div>
             <p class="post-excerpt">一年没浇过几次水小红还活着，就是长的越来越丑了😂</p>
         </div>
-       
-        
-
     </main>
     
+    <!-- JavaScript 脚本 -->
     <script src="js/script.js"></script>
-    
 
-
-
-
-
-
-    <!-- 模态框 -->
+    <!-- 图片预览模态框 -->
     <div id="modal" class="modal" onclick="closeModal()">
         <span class="close">&times;</span>
-        <img class="modal-content" id="expandedImg">
+        <img class="modal-content" id="expandedImg" alt="放大图片">
     </div>
 </body>
 </html>
