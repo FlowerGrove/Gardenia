@@ -110,6 +110,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 加载历史记录
     loadVisitHistory();
+    
+    // 监听窗口大小变化
+    window.addEventListener('resize', handleWindowResize);
+    
+    // 初始化移动端侧边栏
+    setupMobileSidebar();
 });
 
 /**
@@ -275,12 +281,8 @@ function setupActionButtons() {
     // 个人页面按钮 (原收藏夹按钮)
     const profileBtn = document.querySelector('.favorites-btn');
     if (profileBtn) {
-        // 更新图标和提示
-        profileBtn.innerHTML = '<i class="fas fa-user"></i>';
-        profileBtn.setAttribute('aria-label', '个人页面');
-        
         profileBtn.addEventListener('click', function() {
-            showProfilePage();
+            window.location.href = 'personal-blog.html';
         });
     }
     
@@ -526,17 +528,73 @@ function initCategorySelector() {
     // 获取所有唯一分类
     const categories = ['全部', ...new Set(websiteData.map(site => site.category))];
     
+    // 清空现有内容
+    categorySelector.innerHTML = '';
+    
+    // 添加标题（仅在移动端显示）
+    const title = document.createElement('h3');
+    title.className = 'category-title mobile-only';
+    title.textContent = '分类导航';
+    title.style.margin = '0 0 15px 0';
+    title.style.fontSize = '1.2rem';
+    title.style.fontWeight = '500';
+    title.style.display = 'none';
+    
+    // 检测是否为移动设备
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        title.style.display = 'block';
+    }
+    
+    categorySelector.appendChild(title);
+    
     // 创建分类按钮
     categories.forEach(category => {
         const btn = document.createElement('button');
         btn.className = 'category-btn';
-        btn.textContent = category;
+        
+        // 计算该分类下的网站数量
+        const count = category === '全部' 
+            ? websiteData.length 
+            : websiteData.filter(site => site.category === category).length;
+        
+        // 为每个类别添加相应的图标
+        let iconClass = 'fas fa-globe'; // 默认图标
+        
+        if (category === '全部') {
+            iconClass = 'fas fa-th-large';
+        } else if (category === '搜索引擎') {
+            iconClass = 'fas fa-search';
+        } else if (category === '视频') {
+            iconClass = 'fas fa-video';
+        } else if (category === '社区' || category === '社交') {
+            iconClass = 'fas fa-users';
+        } else if (category === '购物') {
+            iconClass = 'fas fa-shopping-cart';
+        } else if (category === '门户') {
+            iconClass = 'fas fa-newspaper';
+        } else if (category === '开发') {
+            iconClass = 'fas fa-code';
+        }
+        
+        // 针对侧边栏的样式 - 始终使用图标和计数
+        btn.innerHTML = `
+            <i class="${iconClass}"></i>
+            <span style="flex: 1;">${category}</span>
+            <span class="category-count">${count}</span>
+        `;
+        
         if (category === '全部') btn.classList.add('active');
         
         btn.addEventListener('click', function() {
             // 更新按钮状态
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
+            
+            // 滚动到顶部（针对移动设备）
+            if (isMobile) {
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
             
             // 更新网站列表
             const searchTerm = document.querySelector('.search-input')?.value || '';
@@ -672,7 +730,23 @@ function showFavorites() {
     if (!existingFavBtn) {
         const favBtn = document.createElement('button');
         favBtn.className = 'category-btn active favorites';
-        favBtn.textContent = '收藏夹';
+        
+        // 检测是否为移动设备
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // 计算收藏夹中的网站数量
+            const favCount = favorites.length;
+            
+            favBtn.innerHTML = `
+                <i class="fas fa-star" style="margin-right: 10px; color: #FFD700;"></i>
+                <span style="flex: 1;">收藏夹</span>
+                <span class="category-count" style="background: rgba(0,0,0,0.1); padding: 2px 8px; border-radius: 12px; font-size: 0.8rem;">${favCount}</span>
+            `;
+        } else {
+            favBtn.textContent = '收藏夹';
+        }
+        
         categorySelector.prepend(favBtn);
         
         favBtn.addEventListener('click', function() {
@@ -743,7 +817,23 @@ function showHistory() {
     if (!existingHistoryBtn) {
         const historyBtn = document.createElement('button');
         historyBtn.className = 'category-btn active history';
-        historyBtn.textContent = '历史记录';
+        
+        // 检测是否为移动设备
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // 历史记录数量
+            const historyCount = visitHistory.length;
+            
+            historyBtn.innerHTML = `
+                <i class="fas fa-history" style="margin-right: 10px;"></i>
+                <span style="flex: 1;">历史记录</span>
+                <span class="category-count" style="background: rgba(0,0,0,0.1); padding: 2px 8px; border-radius: 12px; font-size: 0.8rem;">${historyCount}</span>
+            `;
+        } else {
+            historyBtn.textContent = '历史记录';
+        }
+        
         categorySelector.prepend(historyBtn);
         
         historyBtn.addEventListener('click', function() {
@@ -809,4 +899,67 @@ function addWebsite(name, url, category, logo) {
 
 // 向window暴露函数，供time.js使用
 window.initWebsites = initWebsites;
-window.setupNavItemClick = setupNavItemClick; 
+window.setupNavItemClick = setupNavItemClick;
+
+/**
+ * 处理窗口大小变化
+ */
+function handleWindowResize() {
+    // 定义一个防抖函数，避免频繁触发
+    clearTimeout(window.resizeTimer);
+    window.resizeTimer = setTimeout(function() {
+        // 重新初始化分类选择器以适应新的屏幕尺寸
+        initCategorySelector();
+        
+        // 检查当前是否有活动的分类
+        const activeCategory = document.querySelector('.category-btn.active');
+        if (activeCategory) {
+            // 如果有，重新应用其活动状态
+            const category = activeCategory.textContent.trim();
+            const searchTerm = document.querySelector('.search-input')?.value || '';
+            
+            if (activeCategory.classList.contains('favorites')) {
+                showFavorites();
+            } else if (activeCategory.classList.contains('history')) {
+                showHistory();
+            } else {
+                initWebsites(category === '全部' ? null : category, searchTerm);
+            }
+        }
+    }, 250); // 250ms的延迟
+}
+
+/**
+ * 初始化移动端侧边栏
+ */
+function setupMobileSidebar() {
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const closeSidebarBtn = document.querySelector('.close-sidebar');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (mobileMenuToggle && sidebar) {
+        // 打开侧边栏
+        mobileMenuToggle.addEventListener('click', function() {
+            sidebar.classList.add('active');
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+        });
+    }
+    
+    if (closeSidebarBtn && sidebar) {
+        // 关闭侧边栏
+        closeSidebarBtn.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            document.body.style.overflow = ''; // 恢复滚动
+        });
+    }
+    
+    // 点击分类按钮后自动关闭侧边栏（仅在移动端）
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768 && 
+            e.target.closest('.category-btn') && 
+            sidebar.classList.contains('active')) {
+            sidebar.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+} 
