@@ -87,14 +87,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // 加载收藏夹和历史记录
     loadFavoritesAndHistory();
     
+    // 加载自定义网站
+    loadCustomWebsites();
+    
     // 加载图标
     loadDefaultIcons();
     
     // 初始化网站列表
     initWebsites();
     
-    // 初始化分类选择器
-    initCategorySelector();
+    // 根据设备宽度初始化合适的分类选择器
+    const isMobileView = window.innerWidth <= 768;
+    if (isMobileView) {
+        initMobileCategorySelector();
+    } else {
+        initCategorySelector();
+    }
     
     // 设置搜索功能
     setupSearch();
@@ -116,9 +124,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 监听窗口大小变化
     window.addEventListener('resize', handleWindowResize);
-    
-    // 初始化移动端侧边栏
-    setupMobileSidebar();
     
     // 向全局暴露常用函数，便于调试问题
     window.favorites = favorites;
@@ -286,7 +291,7 @@ function setupActionButtons() {
         setupSettingsPreview();
     }
     
-    // 个人页面按钮 (原收藏夹按钮)
+    // 个人页面按钮
     const profileBtn = document.querySelector('.favorites-btn');
     if (profileBtn) {
         profileBtn.addEventListener('click', function() {
@@ -301,6 +306,35 @@ function setupActionButtons() {
             showHistory();
         });
     }
+    
+    // 收藏夹按钮
+    const bookmarksBtn = document.querySelector('.bookmarks-btn');
+    if (bookmarksBtn) {
+        bookmarksBtn.addEventListener('click', function() {
+            showFavorites();
+        });
+    }
+    
+    // 添加网站按钮
+    const addSiteBtn = document.querySelector('.add-site-btn');
+    if (addSiteBtn) {
+        addSiteBtn.addEventListener('click', function() {
+            showAddSiteForm();
+        });
+    }
+    
+    // 为所有动作项添加点击事件
+    const actionItems = document.querySelectorAll('.action-item');
+    actionItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            // 如果点击的是.action-item本身或其span子元素（而不是按钮）
+            if (e.target === this || e.target.tagName === 'SPAN') {
+                // 触发内部按钮的点击事件
+                const button = this.querySelector('button');
+                if (button) button.click();
+            }
+        });
+    });
 }
 
 /**
@@ -435,6 +469,30 @@ function loadFavoritesAndHistory() {
 }
 
 /**
+ * 加载自定义网站
+ */
+function loadCustomWebsites() {
+    const savedCustomSites = localStorage.getItem('customWebsites');
+    if (savedCustomSites) {
+        try {
+            const customSites = JSON.parse(savedCustomSites);
+            
+            // 将自定义网站添加到websiteData
+            customSites.forEach(site => {
+                // 检查是否已存在相同URL的网站
+                if (!websiteData.some(existing => existing.url === site.url)) {
+                    websiteData.push(site);
+                }
+            });
+            
+            console.log('已加载自定义网站:', customSites.length);
+        } catch (error) {
+            console.error('加载自定义网站失败:', error);
+        }
+    }
+}
+
+/**
  * 加载图标（从本地获取失败时使用线上favicon）
  */
 function loadDefaultIcons() {
@@ -481,37 +539,7 @@ function initWebsites(filterCategory = null, searchTerm = "", showFavoriteOnly =
     
     // 创建网站卡片
     filteredSites.forEach(site => {
-        const item = document.createElement('div');
-        item.className = 'nav-item';
-        item.setAttribute('data-url', site.url);
-        item.setAttribute('data-category', site.category);
-        
-        const img = document.createElement('img');
-        img.src = site.logo;
-        img.alt = site.name;
-        img.onerror = function() {
-            // 图标加载失败时使用备选图标
-            this.src = 'assets/icons/default.png';
-        };
-        
-        const span = document.createElement('span');
-        span.textContent = site.name;
-        
-        // 添加收藏状态
-        if (window.favorites && window.favorites.some(fav => fav.url === site.url)) {
-            const favBadge = document.createElement('i');
-            favBadge.className = 'fas fa-star favorite-badge';
-            favBadge.style.position = 'absolute';
-            favBadge.style.top = '10px';
-            favBadge.style.right = '10px';
-            favBadge.style.color = '#FFD700';
-            favBadge.style.fontSize = '0.8rem';
-            item.appendChild(favBadge);
-        }
-        
-        item.appendChild(img);
-        item.appendChild(span);
-        navGrid.appendChild(item);
+        createWebsiteElement(site, navGrid);
     });
     
     // 无搜索结果时显示提示
@@ -524,6 +552,90 @@ function initWebsites(filterCategory = null, searchTerm = "", showFavoriteOnly =
     
     // 重新绑定点击事件
     setupNavItemClick();
+}
+
+/**
+ * 创建网站元素
+ */
+function createWebsiteElement(site, container) {
+    const item = document.createElement('div');
+    item.className = 'nav-item';
+    item.setAttribute('data-url', site.url);
+    item.setAttribute('data-category', site.category);
+    
+    const img = document.createElement('img');
+    img.src = site.logo;
+    img.alt = site.name;
+    img.onerror = function() {
+        // 图标加载失败时使用备选图标
+        this.src = 'assets/icons/default.png';
+    };
+    
+    const span = document.createElement('span');
+    span.textContent = site.name;
+    
+    // 添加收藏状态
+    if (window.favorites && window.favorites.some(fav => fav.url === site.url)) {
+        const favBadge = document.createElement('i');
+        favBadge.className = 'fas fa-star favorite-badge';
+        favBadge.style.position = 'absolute';
+        favBadge.style.top = '10px';
+        favBadge.style.right = '10px';
+        favBadge.style.color = '#FFD700';
+        favBadge.style.fontSize = '0.8rem';
+        item.appendChild(favBadge);
+    }
+    
+    // 显示标签（如果有）
+    if (site.tags && site.tags.length > 0) {
+        const tagsContainer = document.createElement('div');
+        tagsContainer.className = 'site-tags';
+        tagsContainer.style.display = 'flex';
+        tagsContainer.style.flexWrap = 'wrap';
+        tagsContainer.style.gap = '4px';
+        tagsContainer.style.marginTop = '8px';
+        tagsContainer.style.justifyContent = 'center';
+        
+        // 只显示最多2个标签
+        const visibleTags = site.tags.slice(0, 2);
+        
+        visibleTags.forEach(tag => {
+            const tagSpan = document.createElement('span');
+            tagSpan.className = 'site-tag';
+            tagSpan.textContent = tag;
+            tagSpan.style.fontSize = '0.7rem';
+            tagSpan.style.padding = '2px 6px';
+            tagSpan.style.backgroundColor = 'rgba(var(--bg-color-rgb), 0.6)';
+            tagSpan.style.borderRadius = '10px';
+            tagSpan.style.color = 'var(--primary-color)';
+            
+            tagsContainer.appendChild(tagSpan);
+        });
+        
+        // 显示"更多"指示器
+        if (site.tags.length > 2) {
+            const moreTag = document.createElement('span');
+            moreTag.className = 'site-tag';
+            moreTag.textContent = '+' + (site.tags.length - 2);
+            moreTag.style.fontSize = '0.7rem';
+            moreTag.style.padding = '2px 6px';
+            moreTag.style.backgroundColor = 'rgba(var(--bg-color-rgb), 0.6)';
+            moreTag.style.borderRadius = '10px';
+            moreTag.style.color = 'var(--primary-color)';
+            
+            tagsContainer.appendChild(moreTag);
+        }
+        
+        item.appendChild(img);
+        item.appendChild(span);
+        item.appendChild(tagsContainer);
+    } else {
+        item.appendChild(img);
+        item.appendChild(span);
+    }
+    
+    container.appendChild(item);
+    return item;
 }
 
 /**
@@ -610,6 +722,74 @@ function initCategorySelector() {
         });
         
         categorySelector.appendChild(btn);
+    });
+}
+
+/**
+ * 初始化移动端分类选择器
+ */
+function initMobileCategorySelector() {
+    const mobileCategorySelector = document.querySelector('.mobile-category-selector');
+    if (!mobileCategorySelector) return;
+    
+    // 获取所有唯一分类
+    const categories = ['全部', ...new Set(websiteData.map(site => site.category))];
+    
+    // 清空现有内容
+    mobileCategorySelector.innerHTML = '';
+    
+    // 创建分类按钮
+    categories.forEach(category => {
+        const btn = document.createElement('button');
+        btn.className = 'category-btn';
+        
+        // 计算该分类下的网站数量
+        const count = category === '全部' 
+            ? websiteData.length 
+            : websiteData.filter(site => site.category === category).length;
+        
+        // 为每个类别添加相应的图标
+        let iconClass = 'fas fa-globe'; // 默认图标
+        
+        if (category === '全部') {
+            iconClass = 'fas fa-th-large';
+        } else if (category === '搜索引擎') {
+            iconClass = 'fas fa-search';
+        } else if (category === '视频') {
+            iconClass = 'fas fa-video';
+        } else if (category === '社区' || category === '社交') {
+            iconClass = 'fas fa-users';
+        } else if (category === '购物') {
+            iconClass = 'fas fa-shopping-cart';
+        } else if (category === '门户') {
+            iconClass = 'fas fa-newspaper';
+        } else if (category === '开发') {
+            iconClass = 'fas fa-code';
+        }
+        
+        // 移动端分类按钮样式优化 - 紧凑布局
+        btn.innerHTML = `
+            <i class="${iconClass}"></i>
+            ${category}
+            <span class="category-count">${count}</span>
+        `;
+        
+        if (category === '全部') btn.classList.add('active');
+        
+        btn.addEventListener('click', function() {
+            // 更新按钮状态
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // 更新网站列表
+            const searchTerm = document.querySelector('.search-input')?.value || '';
+            initWebsites(category === '全部' ? null : category, searchTerm);
+            
+            // 自动滚动回顶部
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+        
+        mobileCategorySelector.appendChild(btn);
     });
 }
 
@@ -947,17 +1127,127 @@ function formatDate(date) {
 }
 
 /**
+ * 显示添加网站表单
+ */
+function showAddSiteForm() {
+    // 检查是否已有表单
+    let addSiteModal = document.getElementById('add-site-modal');
+    
+    if (!addSiteModal) {
+        // 创建模态框
+        addSiteModal = document.createElement('div');
+        addSiteModal.id = 'add-site-modal';
+        addSiteModal.className = 'modal';
+        
+        // 添加模态框内容
+        addSiteModal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>添加网站</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-item">
+                        <label for="site-name">网站名称</label>
+                        <input type="text" id="site-name" placeholder="例如：百度">
+                    </div>
+                    <div class="setting-item">
+                        <label for="site-url">网站地址</label>
+                        <input type="url" id="site-url" placeholder="例如：https://www.baidu.com">
+                    </div>
+                    <div class="setting-item">
+                        <label for="site-category">所属分类</label>
+                        <select id="site-category">
+                            <option value="搜索引擎">搜索引擎</option>
+                            <option value="视频">视频</option>
+                            <option value="社区">社区</option>
+                            <option value="购物">购物</option>
+                            <option value="门户">门户</option>
+                            <option value="社交">社交</option>
+                            <option value="开发">开发</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="site-tags">标签（多个标签用逗号分隔）</label>
+                        <input type="text" id="site-tags" placeholder="例如：搜索,工具">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="cancel-add-site">取消</button>
+                    <button class="confirm-add-site">添加</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(addSiteModal);
+        
+        // 绑定关闭按钮
+        const closeBtn = addSiteModal.querySelector('.close-modal');
+        const cancelBtn = addSiteModal.querySelector('.cancel-add-site');
+        const confirmBtn = addSiteModal.querySelector('.confirm-add-site');
+        
+        closeBtn.addEventListener('click', function() {
+            addSiteModal.classList.remove('active');
+        });
+        
+        cancelBtn.addEventListener('click', function() {
+            addSiteModal.classList.remove('active');
+        });
+        
+        confirmBtn.addEventListener('click', function() {
+            // 获取表单数据
+            const name = document.getElementById('site-name').value.trim();
+            const url = document.getElementById('site-url').value.trim();
+            const category = document.getElementById('site-category').value;
+            const tagsInput = document.getElementById('site-tags').value.trim();
+            
+            // 简单验证
+            if (!name || !url) {
+                alert('请填写网站名称和地址');
+                return;
+            }
+            
+            // 处理URL格式
+            let formattedUrl = url;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                formattedUrl = 'https://' + url;
+            }
+            
+            // 处理标签
+            const tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()) : [];
+            
+            // 添加网站
+            addWebsite(name, formattedUrl, category, null, tags);
+            
+            // 关闭模态框
+            addSiteModal.classList.remove('active');
+        });
+    }
+    
+    // 显示模态框
+    addSiteModal.classList.add('active');
+}
+
+/**
  * 添加新网站
  */
-function addWebsite(name, url, category, logo) {
+function addWebsite(name, url, category, logo, tags = []) {
     const newSite = {
         name: name,
         url: url,
         category: category || '其他',
-        logo: logo || `https://${new URL(url).hostname}/favicon.ico`
+        logo: logo || `https://${new URL(url).hostname}/favicon.ico`,
+        tags: tags,
+        description: ''
     };
     
     websiteData.push(newSite);
+    
+    // 保存到本地存储
+    localStorage.setItem('customWebsites', JSON.stringify(
+        websiteData.filter(site => !site.isDefault)
+    ));
     
     // 刷新网站列表和分类
     initWebsites();
@@ -975,14 +1265,30 @@ function handleWindowResize() {
     // 定义一个防抖函数，避免频繁触发
     clearTimeout(window.resizeTimer);
     window.resizeTimer = setTimeout(function() {
+        // 是否是移动设备视图
+        const isMobileView = window.innerWidth <= 768;
+        
         // 重新初始化分类选择器以适应新的屏幕尺寸
-        initCategorySelector();
+        if (isMobileView) {
+            initMobileCategorySelector();
+        } else {
+            initCategorySelector();
+        }
         
         // 检查当前是否有活动的分类
         const activeCategory = document.querySelector('.category-btn.active');
         if (activeCategory) {
             // 如果有，重新应用其活动状态
-            const category = activeCategory.textContent.trim();
+            let category;
+            const categorySpan = activeCategory.querySelector('span');
+            if (categorySpan && !categorySpan.classList.contains('category-count')) {
+                category = categorySpan.textContent.trim();
+            } else {
+                // 从按钮文本中提取分类名（针对新的移动端按钮）
+                const btnText = activeCategory.textContent.trim();
+                category = btnText.replace(/\d+$/, '').trim(); // 移除末尾的数字（分类计数）
+            }
+            
             const searchTerm = document.querySelector('.search-input')?.value || '';
             
             if (activeCategory.classList.contains('favorites')) {
@@ -994,41 +1300,6 @@ function handleWindowResize() {
             }
         }
     }, 250); // 250ms的延迟
-}
-
-/**
- * 初始化移动端侧边栏
- */
-function setupMobileSidebar() {
-    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-    const closeSidebarBtn = document.querySelector('.close-sidebar');
-    const sidebar = document.querySelector('.sidebar');
-    
-    if (mobileMenuToggle && sidebar) {
-        // 打开侧边栏
-        mobileMenuToggle.addEventListener('click', function() {
-            sidebar.classList.add('active');
-            document.body.style.overflow = 'hidden'; // 防止背景滚动
-        });
-    }
-    
-    if (closeSidebarBtn && sidebar) {
-        // 关闭侧边栏
-        closeSidebarBtn.addEventListener('click', function() {
-            sidebar.classList.remove('active');
-            document.body.style.overflow = ''; // 恢复滚动
-        });
-    }
-    
-    // 点击分类按钮后自动关闭侧边栏（仅在移动端）
-    document.addEventListener('click', function(e) {
-        if (window.innerWidth <= 768 && 
-            e.target.closest('.category-btn') && 
-            sidebar.classList.contains('active')) {
-            sidebar.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
 }
 
 /**

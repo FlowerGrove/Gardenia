@@ -33,28 +33,6 @@
         <header>
             <h1 class="poetry-title">君子素其位而行，不愿乎其外</h1>
             <p class="poetry-author">— 《中庸》第十四章</p>
-            
-            <div class="header-actions">
-                <!-- 个人按钮 -->
-                <button class="action-button favorites-btn" aria-label="个人">
-                    <i class="fas fa-user"></i>
-                </button>
-                
-                <!-- 历史记录 -->
-                <button class="action-button history-btn" aria-label="历史记录">
-                    <i class="fas fa-history"></i>
-                </button>
-                
-                <!-- 设置按钮 -->
-                <button class="action-button settings-btn" aria-label="设置">
-                    <i class="fas fa-cog"></i>
-                </button>
-                
-                <!-- 主题切换 -->
-                <button class="theme-toggle" aria-label="切换主题">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
         </header>
         
         <!-- 搜索框 -->
@@ -65,16 +43,68 @@
             </button>
         </div>
         
-        <!-- 主体内容区 - 新的两栏布局 -->
+        <!-- 快捷功能区 -->
+        <div class="action-panel">
+            <div class="action-grid">
+                <!-- 个人按钮 -->
+                <div class="action-item">
+                    <button class="action-button favorites-btn" aria-label="个人">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <span class="action-label">个人</span>
+                </div>
+                
+                <!-- 历史记录 -->
+                <div class="action-item">
+                    <button class="action-button history-btn" aria-label="历史记录">
+                        <i class="fas fa-history"></i>
+                    </button>
+                    <span class="action-label">历史</span>
+                </div>
+                
+                <!-- 收藏夹 -->
+                <div class="action-item">
+                    <button class="action-button bookmarks-btn" aria-label="收藏夹">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <span class="action-label">收藏夹</span>
+                </div>
+                
+                <!-- 添加网站 -->
+                <div class="action-item">
+                    <button class="action-button add-site-btn" aria-label="添加网站">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <span class="action-label">添加</span>
+                </div>
+                
+                <!-- 设置按钮 -->
+                <div class="action-item">
+                    <button class="action-button settings-btn" aria-label="设置">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <span class="action-label">设置</span>
+                </div>
+                
+                <!-- 主题切换 -->
+                <div class="action-item">
+                    <button class="theme-toggle" aria-label="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <span class="action-label">主题</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 主体内容区 - 修改布局，移动端不使用侧边栏 -->
         <div class="content-layout">
-            <!-- 左侧分类侧边栏 -->
-            <aside class="sidebar">
-                <button class="close-sidebar"><i class="fas fa-times"></i></button>
-                <h3 class="sidebar-title">分类导航</h3>
-                <div class="category-selector"></div>
-            </aside>
+            <!-- 分类导航 - 在主界面上显示 -->
+            <div class="mobile-category-nav">
+                <h3 class="mobile-category-title">分类导航</h3>
+                <div class="mobile-category-selector"></div>
+            </div>
             
-            <!-- 右侧主内容区 -->
+            <!-- 主内容区 -->
             <main class="main-content">
                 <nav class="nav-grid">
                     <!-- 网站将通过JS动态生成 -->
@@ -132,11 +162,6 @@
             </div>
         </div>
     </div>
-
-    <!-- 移动端菜单按钮 -->
-    <button class="mobile-menu-toggle">
-        <i class="fas fa-bars"></i>
-    </button>
 
     <!-- 脚本 -->
     <script src="assets/js/script.js"></script>
