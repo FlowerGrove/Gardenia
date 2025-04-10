@@ -3,83 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flower</title>
-    <!-- 样式表链接 -->
-    <link rel="stylesheet" href="css/styles.css">
-    <!-- 网站图标 -->
-    <link rel="icon" href="img/花.svg" type="image/svg+xml">
+    <title>诗词导航</title>
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- PWA支持 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3498db">
+    <link rel="apple-touch-icon" href="assets/icons/logo192.png">
 </head>
-<body>
-    <!-- 菜单切换按钮 -->
-    <div class="button-container" id="button-container">
-        <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    </div>
-
-    <!-- 侧边导航栏 -->
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h2>Flower</h2>
-        </div>
-        <div class="sidebar-nav">
-            <!-- 主导航链接 -->
-            <a href="#" onclick="return handleMenuClick('杂记')">杂记</a>
-            <a href="#" onclick="return handleMenuClick('札记')">札记</a>
-            <a href="#" onclick="return handleMenuClick('余')">余</a>
-
-            <!-- 下拉菜单 -->
-            <div class="dropdown-container">
-               <div class="dropdown" onclick="toggleDropdown(this)">
-                   其他
-                   <svg class="arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                       <path d="M12 18L18 12L12 6L6 12L12 18Z" fill="currentColor" />
-                   </svg>
-               </div>
-               <ul class="dropdown-list">
-                   <li><a href="#" onclick="return handleMenuClick('花卉图鉴')">花卉图鉴</a></li>
-                   <li><a href="#" onclick="return handleMenuClick('养护手册')">养护手册</a></li>
-                   <li><a href="#" onclick="return handleMenuClick('花语大全')">花语大全</a></li>
-                   <li><a href="#" onclick="return handleMenuClick('园艺工具')">园艺工具</a></li>
-               </ul>
+<body class="theme-blue">
+    <!-- 浮动时间窗口 -->
+    <div class="floating-time">
+        <div class="floating-time-content">
+            <div class="floating-current-time">
+                <!-- 内容会由JS动态生成 -->
             </div>
-
-            <a href="tool.html" class="nav-link">工具</a>
-
-            <!-- 关闭菜单按钮 -->
-            <a href="#" onclick="toggleMenu()" style="color: #e74c3c;">关闭菜单</a>
-
-            <!-- 页脚信息 -->
-            <footer class="footer">
-               <div class="footer-content">
-                   <p style="font-size: small; left: -4px;">&copy;2025 阿花的小世界</p>
-                   <p style="font-size: small;">公众号: 一堆花花草草</p>
-                   <img src="img/gzh.jpg" style="height: 40px;width: 40px;" class="thumbnail" onclick="openModal(this)" alt="公众号二维码">
-               </div>
-           </footer>
         </div>
-    </nav>
-
-    <!-- 主要内容区域 -->
-    <main class="content">
-        <!-- 文章卡片 -->
-        <div class="post-card">
-            <!-- 图片缩略图 -->
-            <img src="img/2025.2.16/1.jpg" style="height: 60px;width: 40px;" alt="小红花照片1" class="thumbnail" onclick="openModal(this)">
-            <img src="img/2025.2.16/2.jpg" style="height: 60px;width: 40px;" alt="小红花照片2" class="thumbnail" onclick="openModal(this)">
-            <img src="img/2025.2.16/3.jpg" style="height: 60px;width: 40px;" alt="小红花照片3" class="thumbnail" onclick="openModal(this)">
-            <img src="img/2025.2.16/4.jpg" style="height: 60px;width: 40px;" alt="小红花照片4" class="thumbnail" onclick="openModal(this)">
-            <!-- 文章日期和摘要 -->
-            <div class="post-date">2025年2月</div>
-            <p class="post-excerpt">一年没浇过几次水小红还活着，就是长的越来越丑了😂</p>
-        </div>
-    </main>
-    
-    <!-- JavaScript 脚本 -->
-    <script src="js/script.js"></script>
-
-    <!-- 图片预览模态框 -->
-    <div id="modal" class="modal" onclick="closeModal()">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="expandedImg" alt="放大图片">
+        <div class="close-floating-time"><i class="fas fa-times"></i></div>
     </div>
+
+    <!-- 打开浮动时间窗口按钮 -->
+    <button class="floating-time-toggle-btn hidden">
+        <i class="fas fa-clock"></i>
+    </button>
+
+    <div class="container">
+        <header>
+            <h1 class="poetry-title">独立寒秋，湘江北去，橘子洲头</h1>
+            <p class="poetry-author">— 毛泽东《沁园春·长沙》</p>
+            
+            <div class="header-actions">
+                <!-- 收藏功能 -->
+                <button class="action-button favorites-btn" aria-label="收藏夹">
+                    <i class="fas fa-star"></i>
+                </button>
+                
+                <!-- 历史记录 -->
+                <button class="action-button history-btn" aria-label="历史记录">
+                    <i class="fas fa-history"></i>
+                </button>
+                
+                <!-- 设置按钮 -->
+                <button class="action-button settings-btn" aria-label="设置">
+                    <i class="fas fa-cog"></i>
+                </button>
+                
+                <!-- 主题切换 -->
+                <button class="theme-toggle" aria-label="切换主题">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
+        
+        <!-- 搜索框 -->
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="搜索网站..." aria-label="搜索网站">
+            <button class="search-button" aria-label="搜索">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        
+        <!-- 分类选择器 -->
+        <div class="category-selector"></div>
+        
+        <!-- 网站导航网格 -->
+        <nav class="nav-grid">
+            <!-- 网站将通过JS动态生成 -->
+        </nav>
+    </div>
+
+    <!-- 功能模态框 -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>设置</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <label for="background-select">背景样式</label>
+                    <select id="background-select">
+                        <option value="default">默认</option>
+                        <option value="gradient">渐变</option>
+                        <option value="particles">粒子</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="theme-select">主题颜色</label>
+                    <select id="theme-select">
+                        <option value="theme-blue">蓝色</option>
+                        <option value="theme-green">绿色</option>
+                        <option value="theme-purple">紫色</option>
+                        <option value="theme-red">红色</option>
+                        <option value="theme-orange">橙色</option>
+                        <option value="theme-teal">青色</option>
+                        <option value="theme-pink">粉色</option>
+                        <option value="theme-indigo">靛蓝</option>
+                        <option value="theme-cyan">蓝绿</option>
+                        <option value="theme-brown">棕色</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="font-size">字体大小</label>
+                    <input type="range" id="font-size" min="12" max="20" value="16">
+                    <span id="font-size-value">16px</span>
+                </div>
+                <div class="setting-item">
+                    <label for="floating-time-toggle">浮动时间窗口</label>
+                    <label class="switch">
+                        <input type="checkbox" id="floating-time-toggle" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="save-settings">保存设置</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/time-controller.js"></script>
+    
+    <!-- 注册 Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(function(registration) {
+                        console.log('Service Worker 注册成功:', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('Service Worker 注册失败:', error);
+                    });
+            });
+        }
+    </script>
 </body>
-</html>
+</html> 

@@ -1,0 +1,26 @@
+{
+  "name": "网站导航",
+  "short_name": "导航",
+  "description": "个人网站导航工具",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#3498db",
+  "icons": [
+    {
+      "src": "assets/icons/logo192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "orientation": "portrait-primary",
+  "lang": "zh-CN",
+  "categories": ["navigation", "utilities"]
+} 
