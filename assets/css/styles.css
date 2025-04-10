@@ -956,8 +956,7 @@ body.particles-bg {
 /* 响应式设计 */
 @media screen and (max-width: 768px) {
     :root {
-        --time-display-width: 180px;
-        --music-player-height: 120px;
+        --padding-horizontal: 15px;
     }
     
     html {
@@ -969,21 +968,28 @@ body.particles-bg {
     }
     
     .poetry-title {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
     
     .nav-grid {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        display: flex;
+        flex-direction: column;
         gap: 15px;
+        align-items: flex-start;
     }
     
     .nav-item {
         padding: 15px 10px;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 15px;
     }
     
     .nav-item img {
         width: 40px;
         height: 40px;
+        margin-bottom: 0;
     }
     
     .back-button {
@@ -1053,7 +1059,9 @@ body.particles-bg {
     }
     
     .nav-grid {
-        grid-template-columns: repeat(3, 1fr);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
     
     .category-selector {
