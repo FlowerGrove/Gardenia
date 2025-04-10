@@ -556,6 +556,7 @@ header {
     top: 20px;
     right: 20px;
     display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
@@ -1309,7 +1310,7 @@ body.dark-mode .floating-time-toggle-btn {
     background-color: var(--primary-color);
     color: white;
     font-size: 1.5rem;
-    display: none;
+    display: flex; /* 默认显示 */
     justify-content: center;
     align-items: center;
     border: none;
