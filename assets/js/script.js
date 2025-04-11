@@ -84,25 +84,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // 检测设备信息
     detectDevice();
     
-    // 加载收藏夹和历史记录
-    loadFavoritesAndHistory();
-    
-    // 加载自定义网站
-    loadCustomWebsites();
-    
     // 加载图标
     loadDefaultIcons();
     
     // 初始化网站列表
     initWebsites();
     
-    // 根据设备宽度初始化合适的分类选择器
-    const isMobileView = window.innerWidth <= 768;
-    if (isMobileView) {
-        initMobileCategorySelector();
-    } else {
-        initCategorySelector();
-    }
+    // 初始化分类选择器
+    initCategorySelector();
     
     // 设置搜索功能
     setupSearch();
@@ -121,14 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 加载历史记录
     loadVisitHistory();
-    
-    // 监听窗口大小变化
-    window.addEventListener('resize', handleWindowResize);
-    
-    // 向全局暴露常用函数，便于调试问题
-    window.favorites = favorites;
-    window.addToFavorites = addToFavorites;
-    window.removeFromFavorites = removeFromFavorites;
 });
 
 /**
@@ -291,11 +272,15 @@ function setupActionButtons() {
         setupSettingsPreview();
     }
     
-    // 个人页面按钮
+    // 个人页面按钮 (原收藏夹按钮)
     const profileBtn = document.querySelector('.favorites-btn');
     if (profileBtn) {
+        // 更新图标和提示
+        profileBtn.innerHTML = '<i class="fas fa-user"></i>';
+        profileBtn.setAttribute('aria-label', '个人页面');
+        
         profileBtn.addEventListener('click', function() {
-            window.location.href = 'personal-blog.html';
+            showProfilePage();
         });
     }
     
@@ -306,35 +291,6 @@ function setupActionButtons() {
             showHistory();
         });
     }
-    
-    // 收藏夹按钮
-    const bookmarksBtn = document.querySelector('.bookmarks-btn');
-    if (bookmarksBtn) {
-        bookmarksBtn.addEventListener('click', function() {
-            showFavorites();
-        });
-    }
-    
-    // 添加网站按钮
-    const addSiteBtn = document.querySelector('.add-site-btn');
-    if (addSiteBtn) {
-        addSiteBtn.addEventListener('click', function() {
-            showAddSiteForm();
-        });
-    }
-    
-    // 为所有动作项添加点击事件
-    const actionItems = document.querySelectorAll('.action-item');
-    actionItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            // 如果点击的是.action-item本身或其span子元素（而不是按钮）
-            if (e.target === this || e.target.tagName === 'SPAN') {
-                // 触发内部按钮的点击事件
-                const button = this.querySelector('button');
-                if (button) button.click();
-            }
-        });
-    });
 }
 
 /**
@@ -469,30 +425,6 @@ function loadFavoritesAndHistory() {
 }
 
 /**
- * 加载自定义网站
- */
-function loadCustomWebsites() {
-    const savedCustomSites = localStorage.getItem('customWebsites');
-    if (savedCustomSites) {
-        try {
-            const customSites = JSON.parse(savedCustomSites);
-            
-            // 将自定义网站添加到websiteData
-            customSites.forEach(site => {
-                // 检查是否已存在相同URL的网站
-                if (!websiteData.some(existing => existing.url === site.url)) {
-                    websiteData.push(site);
-                }
-            });
-            
-            console.log('已加载自定义网站:', customSites.length);
-        } catch (error) {
-            console.error('加载自定义网站失败:', error);
-        }
-    }
-}
-
-/**
  * 加载图标（从本地获取失败时使用线上favicon）
  */
 function loadDefaultIcons() {
@@ -539,7 +471,37 @@ function initWebsites(filterCategory = null, searchTerm = "", showFavoriteOnly =
     
     // 创建网站卡片
     filteredSites.forEach(site => {
-        createWebsiteElement(site, navGrid);
+        const item = document.createElement('div');
+        item.className = 'nav-item';
+        item.setAttribute('data-url', site.url);
+        item.setAttribute('data-category', site.category);
+        
+        const img = document.createElement('img');
+        img.src = site.logo;
+        img.alt = site.name;
+        img.onerror = function() {
+            // 图标加载失败时使用备选图标
+            this.src = 'assets/icons/default.png';
+        };
+        
+        const span = document.createElement('span');
+        span.textContent = site.name;
+        
+        // 添加收藏状态
+        if (window.favorites && window.favorites.some(fav => fav.url === site.url)) {
+            const favBadge = document.createElement('i');
+            favBadge.className = 'fas fa-star favorite-badge';
+            favBadge.style.position = 'absolute';
+            favBadge.style.top = '10px';
+            favBadge.style.right = '10px';
+            favBadge.style.color = '#FFD700';
+            favBadge.style.fontSize = '0.8rem';
+            item.appendChild(favBadge);
+        }
+        
+        item.appendChild(img);
+        item.appendChild(span);
+        navGrid.appendChild(item);
     });
     
     // 无搜索结果时显示提示
@@ -555,90 +517,6 @@ function initWebsites(filterCategory = null, searchTerm = "", showFavoriteOnly =
 }
 
 /**
- * 创建网站元素
- */
-function createWebsiteElement(site, container) {
-    const item = document.createElement('div');
-    item.className = 'nav-item';
-    item.setAttribute('data-url', site.url);
-    item.setAttribute('data-category', site.category);
-    
-    const img = document.createElement('img');
-    img.src = site.logo;
-    img.alt = site.name;
-    img.onerror = function() {
-        // 图标加载失败时使用备选图标
-        this.src = 'assets/icons/default.png';
-    };
-    
-    const span = document.createElement('span');
-    span.textContent = site.name;
-    
-    // 添加收藏状态
-    if (window.favorites && window.favorites.some(fav => fav.url === site.url)) {
-        const favBadge = document.createElement('i');
-        favBadge.className = 'fas fa-star favorite-badge';
-        favBadge.style.position = 'absolute';
-        favBadge.style.top = '10px';
-        favBadge.style.right = '10px';
-        favBadge.style.color = '#FFD700';
-        favBadge.style.fontSize = '0.8rem';
-        item.appendChild(favBadge);
-    }
-    
-    // 显示标签（如果有）
-    if (site.tags && site.tags.length > 0) {
-        const tagsContainer = document.createElement('div');
-        tagsContainer.className = 'site-tags';
-        tagsContainer.style.display = 'flex';
-        tagsContainer.style.flexWrap = 'wrap';
-        tagsContainer.style.gap = '4px';
-        tagsContainer.style.marginTop = '8px';
-        tagsContainer.style.justifyContent = 'center';
-        
-        // 只显示最多2个标签
-        const visibleTags = site.tags.slice(0, 2);
-        
-        visibleTags.forEach(tag => {
-            const tagSpan = document.createElement('span');
-            tagSpan.className = 'site-tag';
-            tagSpan.textContent = tag;
-            tagSpan.style.fontSize = '0.7rem';
-            tagSpan.style.padding = '2px 6px';
-            tagSpan.style.backgroundColor = 'rgba(var(--bg-color-rgb), 0.6)';
-            tagSpan.style.borderRadius = '10px';
-            tagSpan.style.color = 'var(--primary-color)';
-            
-            tagsContainer.appendChild(tagSpan);
-        });
-        
-        // 显示"更多"指示器
-        if (site.tags.length > 2) {
-            const moreTag = document.createElement('span');
-            moreTag.className = 'site-tag';
-            moreTag.textContent = '+' + (site.tags.length - 2);
-            moreTag.style.fontSize = '0.7rem';
-            moreTag.style.padding = '2px 6px';
-            moreTag.style.backgroundColor = 'rgba(var(--bg-color-rgb), 0.6)';
-            moreTag.style.borderRadius = '10px';
-            moreTag.style.color = 'var(--primary-color)';
-            
-            tagsContainer.appendChild(moreTag);
-        }
-        
-        item.appendChild(img);
-        item.appendChild(span);
-        item.appendChild(tagsContainer);
-    } else {
-        item.appendChild(img);
-        item.appendChild(span);
-    }
-    
-    container.appendChild(item);
-    return item;
-}
-
-/**
  * 初始化分类选择器
  */
 function initCategorySelector() {
@@ -648,73 +526,17 @@ function initCategorySelector() {
     // 获取所有唯一分类
     const categories = ['全部', ...new Set(websiteData.map(site => site.category))];
     
-    // 清空现有内容
-    categorySelector.innerHTML = '';
-    
-    // 添加标题（仅在移动端显示）
-    const title = document.createElement('h3');
-    title.className = 'category-title mobile-only';
-    title.textContent = '分类导航';
-    title.style.margin = '0 0 15px 0';
-    title.style.fontSize = '1.2rem';
-    title.style.fontWeight = '500';
-    title.style.display = 'none';
-    
-    // 检测是否为移动设备
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-        title.style.display = 'block';
-    }
-    
-    categorySelector.appendChild(title);
-    
     // 创建分类按钮
     categories.forEach(category => {
         const btn = document.createElement('button');
         btn.className = 'category-btn';
-        
-        // 计算该分类下的网站数量
-        const count = category === '全部' 
-            ? websiteData.length 
-            : websiteData.filter(site => site.category === category).length;
-        
-        // 为每个类别添加相应的图标
-        let iconClass = 'fas fa-globe'; // 默认图标
-        
-        if (category === '全部') {
-            iconClass = 'fas fa-th-large';
-        } else if (category === '搜索引擎') {
-            iconClass = 'fas fa-search';
-        } else if (category === '视频') {
-            iconClass = 'fas fa-video';
-        } else if (category === '社区' || category === '社交') {
-            iconClass = 'fas fa-users';
-        } else if (category === '购物') {
-            iconClass = 'fas fa-shopping-cart';
-        } else if (category === '门户') {
-            iconClass = 'fas fa-newspaper';
-        } else if (category === '开发') {
-            iconClass = 'fas fa-code';
-        }
-        
-        // 针对侧边栏的样式 - 始终使用图标和计数
-        btn.innerHTML = `
-            <i class="${iconClass}"></i>
-            <span style="flex: 1;">${category}</span>
-            <span class="category-count">${count}</span>
-        `;
-        
+        btn.textContent = category;
         if (category === '全部') btn.classList.add('active');
         
         btn.addEventListener('click', function() {
             // 更新按钮状态
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            
-            // 滚动到顶部（针对移动设备）
-            if (isMobile) {
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            }
             
             // 更新网站列表
             const searchTerm = document.querySelector('.search-input')?.value || '';
@@ -726,74 +548,6 @@ function initCategorySelector() {
 }
 
 /**
- * 初始化移动端分类选择器
- */
-function initMobileCategorySelector() {
-    const mobileCategorySelector = document.querySelector('.mobile-category-selector');
-    if (!mobileCategorySelector) return;
-    
-    // 获取所有唯一分类
-    const categories = ['全部', ...new Set(websiteData.map(site => site.category))];
-    
-    // 清空现有内容
-    mobileCategorySelector.innerHTML = '';
-    
-    // 创建分类按钮
-    categories.forEach(category => {
-        const btn = document.createElement('button');
-        btn.className = 'category-btn';
-        
-        // 计算该分类下的网站数量
-        const count = category === '全部' 
-            ? websiteData.length 
-            : websiteData.filter(site => site.category === category).length;
-        
-        // 为每个类别添加相应的图标
-        let iconClass = 'fas fa-globe'; // 默认图标
-        
-        if (category === '全部') {
-            iconClass = 'fas fa-th-large';
-        } else if (category === '搜索引擎') {
-            iconClass = 'fas fa-search';
-        } else if (category === '视频') {
-            iconClass = 'fas fa-video';
-        } else if (category === '社区' || category === '社交') {
-            iconClass = 'fas fa-users';
-        } else if (category === '购物') {
-            iconClass = 'fas fa-shopping-cart';
-        } else if (category === '门户') {
-            iconClass = 'fas fa-newspaper';
-        } else if (category === '开发') {
-            iconClass = 'fas fa-code';
-        }
-        
-        // 移动端分类按钮样式优化 - 紧凑布局
-        btn.innerHTML = `
-            <i class="${iconClass}"></i>
-            ${category}
-            <span class="category-count">${count}</span>
-        `;
-        
-        if (category === '全部') btn.classList.add('active');
-        
-        btn.addEventListener('click', function() {
-            // 更新按钮状态
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            
-            // 更新网站列表
-            const searchTerm = document.querySelector('.search-input')?.value || '';
-            initWebsites(category === '全部' ? null : category, searchTerm);
-            
-            // 自动滚动回顶部
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        });
-        
-        mobileCategorySelector.appendChild(btn);
-    });
-}
-
-/**
  * 设置搜索功能
  */
 function setupSearch() {
@@ -801,51 +555,22 @@ function setupSearch() {
     const searchButton = document.querySelector('.search-button');
     
     if (searchInput && searchButton) {
-        // 搜索按钮点击处理函数
-        const handleSearch = function() {
-            // 查找活动的分类按钮
-            const activeBtn = document.querySelector('.category-btn.active');
-            if (!activeBtn) return;
-            
-            // 获取分类名称（考虑新的按钮结构）
-            let category;
-            // 检查是否有span子元素（新的侧边栏结构）
-            const categorySpan = activeBtn.querySelector('span');
-            if (categorySpan) {
-                category = categorySpan.textContent.trim();
-            } else {
-                category = activeBtn.textContent.trim();
-            }
-            
-            const searchTerm = searchInput.value.trim();
-            if (searchTerm) {
-                // 记录搜索历史
-                const searchTitle = `搜索: ${searchTerm}`;
-                const searchUrl = `#search?q=${encodeURIComponent(searchTerm)}`;
-                
-                // 添加到历史记录
-                addToHistory(searchUrl, searchTitle);
-            }
-            
-            // 使用清理后的类别和搜索词调用网站初始化
-            initWebsites(category === '全部' ? null : category, searchTerm);
-        };
-        
         // 搜索按钮点击
-        searchButton.addEventListener('click', handleSearch);
+        searchButton.addEventListener('click', function() {
+            const activeCategory = document.querySelector('.category-btn.active')?.textContent;
+            initWebsites(activeCategory === '全部' ? null : activeCategory, searchInput.value);
+        });
         
-        // 实时搜索延迟处理
-        let searchTimeout;
+        // 输入框实时搜索
         searchInput.addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(handleSearch, 500); // 500ms延迟，防止频繁搜索
+            const activeCategory = document.querySelector('.category-btn.active')?.textContent;
+            initWebsites(activeCategory === '全部' ? null : activeCategory, searchInput.value);
         });
         
         // 输入框回车
         searchInput.addEventListener('keyup', function(e) {
             if (e.key === 'Enter') {
-                clearTimeout(searchTimeout);
-                handleSearch();
+                searchButton.click();
             }
         });
     }
@@ -893,33 +618,14 @@ function setupNavItemClick() {
     navItems.forEach(item => {
         item.addEventListener('click', function() {
             const url = this.getAttribute('data-url');
-            if (!url) return;
-            
-            // 检查是否是搜索历史记录
-            if (url.startsWith('#search?')) {
-                // 这是一个搜索历史条目
-                const searchParams = new URLSearchParams(url.substring(url.indexOf('?')));
-                const searchTerm = searchParams.get('q');
-                
-                if (searchTerm) {
-                    // 设置搜索框的值
-                    const searchInput = document.querySelector('.search-input');
-                    if (searchInput) {
-                        searchInput.value = searchTerm;
-                        
-                        // 触发搜索
-                        const searchButton = document.querySelector('.search-button');
-                        if (searchButton) {
-                            searchButton.click();
-                        }
-                    }
-                }
-            } else {
-                // 普通链接，在新窗口中打开
+            if (url) {
+                // 在新窗口中打开链接
                 window.open(url, '_blank');
                 
-                // 记录访问历史
-                addToHistory(url, this.querySelector('span').textContent);
+                // 记录访问历史 (如果time.js已加载)
+                if (window.addToHistory) {
+                    window.addToHistory(url, this.querySelector('span').textContent);
+                }
             }
         });
         
@@ -927,18 +633,17 @@ function setupNavItemClick() {
         item.addEventListener('contextmenu', function(e) {
             e.preventDefault();
             
-            // 如果URL是搜索历史记录，则不添加到收藏夹
-            const url = this.getAttribute('data-url');
-            if (url && !url.startsWith('#search?')) {
+            if (window.addToFavorites && window.removeFromFavorites && window.favorites) {
+                const url = this.getAttribute('data-url');
                 const name = this.querySelector('span').textContent;
                 
                 // 检查是否已收藏
-                const isFavorited = favorites.some(fav => fav.url === url);
+                const isFavorited = window.favorites.some(fav => fav.url === url);
                 
                 if (isFavorited) {
-                    removeFromFavorites(url);
+                    window.removeFromFavorites(url);
                 } else {
-                    addToFavorites(url, name);
+                    window.addToFavorites(url, name);
                 }
                 
                 // 刷新显示
@@ -967,23 +672,7 @@ function showFavorites() {
     if (!existingFavBtn) {
         const favBtn = document.createElement('button');
         favBtn.className = 'category-btn active favorites';
-        
-        // 检测是否为移动设备
-        const isMobile = window.innerWidth <= 768;
-        
-        if (isMobile) {
-            // 计算收藏夹中的网站数量
-            const favCount = favorites.length;
-            
-            favBtn.innerHTML = `
-                <i class="fas fa-star" style="margin-right: 10px; color: #FFD700;"></i>
-                <span style="flex: 1;">收藏夹</span>
-                <span class="category-count" style="background: rgba(0,0,0,0.1); padding: 2px 8px; border-radius: 12px; font-size: 0.8rem;">${favCount}</span>
-            `;
-        } else {
-            favBtn.textContent = '收藏夹';
-        }
-        
+        favBtn.textContent = '收藏夹';
         categorySelector.prepend(favBtn);
         
         favBtn.addEventListener('click', function() {
@@ -1014,27 +703,16 @@ function showHistory() {
         historyItem.className = 'nav-item';
         historyItem.setAttribute('data-url', item.url);
         
-        let logo;
+        // 获取图标
+        const site = websiteData.find(s => s.url === item.url);
+        const logo = site ? site.logo : `https://${new URL(item.url).hostname}/favicon.ico`;
         
-        // 处理搜索历史记录
-        if (item.url.startsWith('#search?')) {
-            // 搜索历史使用特殊图标
-            logo = 'assets/icons/search.png';  // 确保此文件存在，或使用其他图标
-            // 使用默认搜索图标
-            historyItem.innerHTML = `<i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px; color: var(--primary-color);"></i>`;
-        } else {
-            // 获取网站图标
-            const site = websiteData.find(s => s.url === item.url);
-            logo = site ? site.logo : `https://${new URL(item.url).hostname}/favicon.ico`;
-            
-            const img = document.createElement('img');
-            img.src = logo;
-            img.alt = item.name;
-            img.onerror = function() {
-                this.src = 'assets/icons/default.png';
-            };
-            historyItem.appendChild(img);
-        }
+        const img = document.createElement('img');
+        img.src = logo;
+        img.alt = item.name;
+        img.onerror = function() {
+            this.src = 'assets/icons/default.png';
+        };
         
         const span = document.createElement('span');
         span.textContent = item.name;
@@ -1047,6 +725,7 @@ function showHistory() {
         dateSpan.style.fontSize = '0.8rem';
         dateSpan.style.color = '#888';
         
+        historyItem.appendChild(img);
         historyItem.appendChild(span);
         historyItem.appendChild(dateSpan);
         navGrid.appendChild(historyItem);
@@ -1064,23 +743,7 @@ function showHistory() {
     if (!existingHistoryBtn) {
         const historyBtn = document.createElement('button');
         historyBtn.className = 'category-btn active history';
-        
-        // 检测是否为移动设备
-        const isMobile = window.innerWidth <= 768;
-        
-        if (isMobile) {
-            // 历史记录数量
-            const historyCount = visitHistory.length;
-            
-            historyBtn.innerHTML = `
-                <i class="fas fa-history" style="margin-right: 10px;"></i>
-                <span style="flex: 1;">历史记录</span>
-                <span class="category-count" style="background: rgba(0,0,0,0.1); padding: 2px 8px; border-radius: 12px; font-size: 0.8rem;">${historyCount}</span>
-            `;
-        } else {
-            historyBtn.textContent = '历史记录';
-        }
-        
+        historyBtn.textContent = '历史记录';
         categorySelector.prepend(historyBtn);
         
         historyBtn.addEventListener('click', function() {
@@ -1127,127 +790,17 @@ function formatDate(date) {
 }
 
 /**
- * 显示添加网站表单
- */
-function showAddSiteForm() {
-    // 检查是否已有表单
-    let addSiteModal = document.getElementById('add-site-modal');
-    
-    if (!addSiteModal) {
-        // 创建模态框
-        addSiteModal = document.createElement('div');
-        addSiteModal.id = 'add-site-modal';
-        addSiteModal.className = 'modal';
-        
-        // 添加模态框内容
-        addSiteModal.innerHTML = `
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>添加网站</h3>
-                    <button class="close-modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="setting-item">
-                        <label for="site-name">网站名称</label>
-                        <input type="text" id="site-name" placeholder="例如：百度">
-                    </div>
-                    <div class="setting-item">
-                        <label for="site-url">网站地址</label>
-                        <input type="url" id="site-url" placeholder="例如：https://www.baidu.com">
-                    </div>
-                    <div class="setting-item">
-                        <label for="site-category">所属分类</label>
-                        <select id="site-category">
-                            <option value="搜索引擎">搜索引擎</option>
-                            <option value="视频">视频</option>
-                            <option value="社区">社区</option>
-                            <option value="购物">购物</option>
-                            <option value="门户">门户</option>
-                            <option value="社交">社交</option>
-                            <option value="开发">开发</option>
-                            <option value="其他">其他</option>
-                        </select>
-                    </div>
-                    <div class="setting-item">
-                        <label for="site-tags">标签（多个标签用逗号分隔）</label>
-                        <input type="text" id="site-tags" placeholder="例如：搜索,工具">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="cancel-add-site">取消</button>
-                    <button class="confirm-add-site">添加</button>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(addSiteModal);
-        
-        // 绑定关闭按钮
-        const closeBtn = addSiteModal.querySelector('.close-modal');
-        const cancelBtn = addSiteModal.querySelector('.cancel-add-site');
-        const confirmBtn = addSiteModal.querySelector('.confirm-add-site');
-        
-        closeBtn.addEventListener('click', function() {
-            addSiteModal.classList.remove('active');
-        });
-        
-        cancelBtn.addEventListener('click', function() {
-            addSiteModal.classList.remove('active');
-        });
-        
-        confirmBtn.addEventListener('click', function() {
-            // 获取表单数据
-            const name = document.getElementById('site-name').value.trim();
-            const url = document.getElementById('site-url').value.trim();
-            const category = document.getElementById('site-category').value;
-            const tagsInput = document.getElementById('site-tags').value.trim();
-            
-            // 简单验证
-            if (!name || !url) {
-                alert('请填写网站名称和地址');
-                return;
-            }
-            
-            // 处理URL格式
-            let formattedUrl = url;
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                formattedUrl = 'https://' + url;
-            }
-            
-            // 处理标签
-            const tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()) : [];
-            
-            // 添加网站
-            addWebsite(name, formattedUrl, category, null, tags);
-            
-            // 关闭模态框
-            addSiteModal.classList.remove('active');
-        });
-    }
-    
-    // 显示模态框
-    addSiteModal.classList.add('active');
-}
-
-/**
  * 添加新网站
  */
-function addWebsite(name, url, category, logo, tags = []) {
+function addWebsite(name, url, category, logo) {
     const newSite = {
         name: name,
         url: url,
         category: category || '其他',
-        logo: logo || `https://${new URL(url).hostname}/favicon.ico`,
-        tags: tags,
-        description: ''
+        logo: logo || `https://${new URL(url).hostname}/favicon.ico`
     };
     
     websiteData.push(newSite);
-    
-    // 保存到本地存储
-    localStorage.setItem('customWebsites', JSON.stringify(
-        websiteData.filter(site => !site.isDefault)
-    ));
     
     // 刷新网站列表和分类
     initWebsites();
@@ -1256,184 +809,4 @@ function addWebsite(name, url, category, logo, tags = []) {
 
 // 向window暴露函数，供time.js使用
 window.initWebsites = initWebsites;
-window.setupNavItemClick = setupNavItemClick;
-
-/**
- * 处理窗口大小变化
- */
-function handleWindowResize() {
-    // 定义一个防抖函数，避免频繁触发
-    clearTimeout(window.resizeTimer);
-    window.resizeTimer = setTimeout(function() {
-        // 是否是移动设备视图
-        const isMobileView = window.innerWidth <= 768;
-        
-        // 重新初始化分类选择器以适应新的屏幕尺寸
-        if (isMobileView) {
-            initMobileCategorySelector();
-        } else {
-            initCategorySelector();
-        }
-        
-        // 检查当前是否有活动的分类
-        const activeCategory = document.querySelector('.category-btn.active');
-        if (activeCategory) {
-            // 如果有，重新应用其活动状态
-            let category;
-            const categorySpan = activeCategory.querySelector('span');
-            if (categorySpan && !categorySpan.classList.contains('category-count')) {
-                category = categorySpan.textContent.trim();
-            } else {
-                // 从按钮文本中提取分类名（针对新的移动端按钮）
-                const btnText = activeCategory.textContent.trim();
-                category = btnText.replace(/\d+$/, '').trim(); // 移除末尾的数字（分类计数）
-            }
-            
-            const searchTerm = document.querySelector('.search-input')?.value || '';
-            
-            if (activeCategory.classList.contains('favorites')) {
-                showFavorites();
-            } else if (activeCategory.classList.contains('history')) {
-                showHistory();
-            } else {
-                initWebsites(category === '全部' ? null : category, searchTerm);
-            }
-        }
-    }, 250); // 250ms的延迟
-}
-
-/**
- * 添加到收藏夹
- */
-function addToFavorites(url, name) {
-    if (!favorites.some(fav => fav.url === url)) {
-        favorites.push({ url, name, date: new Date().toISOString() });
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        
-        // 刷新显示
-        const activeCategory = document.querySelector('.category-btn.active');
-        if (activeCategory && activeCategory.classList.contains('favorites')) {
-            showFavorites();
-        } else {
-            initWebsites();
-        }
-    }
-}
-
-/**
- * 从收藏夹移除
- */
-function removeFromFavorites(url) {
-    favorites = favorites.filter(fav => fav.url !== url);
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    
-    // 刷新显示
-    const activeCategory = document.querySelector('.category-btn.active');
-    if (activeCategory && activeCategory.classList.contains('favorites')) {
-        showFavorites();
-    } else {
-        initWebsites();
-    }
-}
-
-/**
- * 添加到访问历史
- */
-function addToHistory(url, name) {
-    // 移除相同URL的旧记录
-    visitHistory = visitHistory.filter(item => item.url !== url);
-    
-    // 添加新记录到开头
-    visitHistory.unshift({ url, name, date: new Date().toISOString() });
-    
-    // 限制历史记录最大数量为50
-    if (visitHistory.length > 50) {
-        visitHistory = visitHistory.slice(0, 50);
-    }
-    
-    // 保存到本地存储
-    localStorage.setItem('visitHistory', JSON.stringify(visitHistory));
-}
-
-/**
- * 加载历史记录
- */
-function loadVisitHistory() {
-    const savedHistory = localStorage.getItem('visitHistory');
-    if (savedHistory) {
-        try {
-            visitHistory = JSON.parse(savedHistory);
-        } catch (error) {
-            console.error('加载历史记录失败:', error);
-        }
-    }
-}
-
-/**
- * 处理搜索操作
- */
-function handleSearch() {
-    const searchInput = document.querySelector('.search-input');
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    const navGrid = document.querySelector('.nav-grid');
-    
-    if (!searchTerm) {
-        // 如果搜索框为空，则显示当前分类的所有站点
-        initWebsites();
-        return;
-    }
-    
-    // 清空网格
-    navGrid.innerHTML = '';
-    
-    // 确定当前选中的分类
-    let categoryName = 'all';
-    const activeBtn = document.querySelector('.category-btn.active');
-    if (activeBtn) {
-        // 获取分类名称，考虑到按钮可能包含图标和计数元素
-        const span = activeBtn.querySelector('span');
-        if (span) {
-            categoryName = span.textContent.trim();
-        } else {
-            categoryName = activeBtn.textContent.trim();
-        }
-    }
-    
-    // 根据类别筛选网站
-    let filteredSites = websiteData;
-    if (categoryName !== 'all' && categoryName !== '全部') {
-        filteredSites = websiteData.filter(site => site.category === categoryName);
-    }
-    
-    // 根据搜索词过滤网站，增加了对标签的搜索支持
-    const resultSites = filteredSites.filter(site => 
-        site.name.toLowerCase().includes(searchTerm) || 
-        site.url.toLowerCase().includes(searchTerm) ||
-        (site.description && site.description.toLowerCase().includes(searchTerm)) ||
-        (site.tags && Array.isArray(site.tags) && site.tags.some(tag => 
-            tag.toLowerCase().includes(searchTerm)
-        ))
-    );
-    
-    if (resultSites.length === 0) {
-        const noResults = document.createElement('div');
-        noResults.className = 'no-results';
-        noResults.textContent = '没有找到匹配的网站';
-        navGrid.appendChild(noResults);
-    } else {
-        // 创建并添加网站元素
-        resultSites.forEach(site => {
-            createWebsiteElement(site, navGrid);
-        });
-    }
-    
-    // 添加搜索记录到历史
-    if (searchTerm) {
-        const searchTitle = `搜索: ${searchTerm}`;
-        const searchUrl = `#search?q=${encodeURIComponent(searchTerm)}`;
-        addToHistory(searchUrl, searchTitle);
-    }
-    
-    // 为新生成的元素绑定点击事件
-    setupNavItemClick();
-} 
+window.setupNavItemClick = setupNavItemClick; 

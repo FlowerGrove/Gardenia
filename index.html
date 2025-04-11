@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flower</title>
+    <title>诗词导航</title>
     <!-- Font Awesome 图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- 自定义样式 -->
@@ -31,8 +31,30 @@
 
     <div class="container">
         <header>
-            <h1 class="poetry-title">君子素其位而行，不愿乎其外</h1>
-            <p class="poetry-author">— 《中庸》第十四章</p>
+            <h1 class="poetry-title">独立寒秋，湘江北去，橘子洲头</h1>
+            <p class="poetry-author">— 毛泽东《沁园春·长沙》</p>
+            
+            <div class="header-actions">
+                <!-- 收藏功能 -->
+                <button class="action-button favorites-btn" aria-label="收藏夹">
+                    <i class="fas fa-star"></i>
+                </button>
+                
+                <!-- 历史记录 -->
+                <button class="action-button history-btn" aria-label="历史记录">
+                    <i class="fas fa-history"></i>
+                </button>
+                
+                <!-- 设置按钮 -->
+                <button class="action-button settings-btn" aria-label="设置">
+                    <i class="fas fa-cog"></i>
+                </button>
+                
+                <!-- 主题切换 -->
+                <button class="theme-toggle" aria-label="切换主题">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </header>
         
         <!-- 搜索框 -->
@@ -43,74 +65,13 @@
             </button>
         </div>
         
-        <!-- 快捷功能区 -->
-        <div class="action-panel">
-            <div class="action-grid">
-                <!-- 个人按钮 -->
-                <div class="action-item">
-                    <button class="action-button favorites-btn" aria-label="个人">
-                        <i class="fas fa-user"></i>
-                    </button>
-                    <span class="action-label">个人</span>
-                </div>
-                
-                <!-- 历史记录 -->
-                <div class="action-item">
-                    <button class="action-button history-btn" aria-label="历史记录">
-                        <i class="fas fa-history"></i>
-                    </button>
-                    <span class="action-label">历史</span>
-                </div>
-                
-                <!-- 收藏夹 -->
-                <div class="action-item">
-                    <button class="action-button bookmarks-btn" aria-label="收藏夹">
-                        <i class="fas fa-star"></i>
-                    </button>
-                    <span class="action-label">收藏夹</span>
-                </div>
-                
-                <!-- 添加网站 -->
-                <div class="action-item">
-                    <button class="action-button add-site-btn" aria-label="添加网站">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                    <span class="action-label">添加</span>
-                </div>
-                
-                <!-- 设置按钮 -->
-                <div class="action-item">
-                    <button class="action-button settings-btn" aria-label="设置">
-                        <i class="fas fa-cog"></i>
-                    </button>
-                    <span class="action-label">设置</span>
-                </div>
-                
-                <!-- 主题切换 -->
-                <div class="action-item">
-                    <button class="theme-toggle" aria-label="切换主题">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <span class="action-label">主题</span>
-                </div>
-            </div>
-        </div>
+        <!-- 分类选择器 -->
+        <div class="category-selector"></div>
         
-        <!-- 主体内容区 - 修改布局，移动端不使用侧边栏 -->
-        <div class="content-layout">
-            <!-- 分类导航 - 在主界面上显示 -->
-            <div class="mobile-category-nav">
-                <h3 class="mobile-category-title">分类导航</h3>
-                <div class="mobile-category-selector"></div>
-            </div>
-            
-            <!-- 主内容区 -->
-            <main class="main-content">
-                <nav class="nav-grid">
-                    <!-- 网站将通过JS动态生成 -->
-                </nav>
-            </main>
-        </div>
+        <!-- 网站导航网格 -->
+        <nav class="nav-grid">
+            <!-- 网站将通过JS动态生成 -->
+        </nav>
     </div>
 
     <!-- 功能模态框 -->
