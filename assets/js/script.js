@@ -272,15 +272,19 @@ function setupActionButtons() {
         setupSettingsPreview();
     }
     
-    // 个人页面按钮 (原收藏夹按钮)
-    const profileBtn = document.querySelector('.favorites-btn');
-    if (profileBtn) {
-        // 更新图标和提示
-        profileBtn.innerHTML = '<i class="fas fa-user"></i>';
-        profileBtn.setAttribute('aria-label', '个人页面');
-        
-        profileBtn.addEventListener('click', function() {
-            showProfilePage();
+    // 收藏夹按钮
+    const favoritesBtn = document.querySelector('.favorites-btn');
+    if (favoritesBtn) {
+        favoritesBtn.addEventListener('click', function() {
+            showFavorites();
+        });
+    }
+    
+    // 个人空间按钮
+    const personalBtn = document.querySelector('.personal-btn');
+    if (personalBtn) {
+        personalBtn.addEventListener('click', function() {
+            window.location.href = 'personal.html';
         });
     }
     

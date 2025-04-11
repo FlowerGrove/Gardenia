@@ -347,15 +347,52 @@ function enableDrag(element) {
  * 设置事件监听器
  */
 function setupListeners() {
-    // 关闭浮动时间窗口的按钮
-    document.querySelector('.close-floating-time').addEventListener('click', () => {
-        const timeToggleBtn = document.querySelector('.floating-time-toggle-btn');
-        floatingTimeEl.classList.add('hidden');
-        timeToggleBtn.classList.remove('hidden');
-        timeSettings.floatingTime = false;
-        document.getElementById('floating-time-toggle').checked = false;
-        saveTimeSettings();
-    });
+    // 关闭浮动时间窗口
+    const closeFloatingTime = document.querySelector('.close-floating-time');
+    if (closeFloatingTime) {
+        closeFloatingTime.addEventListener('click', () => {
+            const floatingTimeEl = document.querySelector('.floating-time');
+            const toggleBtn = document.querySelector('.floating-time-toggle-btn');
+            
+            floatingTimeEl.classList.add('hidden');
+            toggleBtn.classList.remove('hidden');
+            
+            // 更新设置为不显示浮动时间
+            timeSettings.floatingTime = false;
+            
+            // 如果设置面板中有相应选项，更新它
+            const floatingTimeToggle = document.getElementById('floating-time-toggle');
+            if (floatingTimeToggle) {
+                floatingTimeToggle.checked = false;
+            }
+            
+            saveTimeSettings();
+        });
+    }
+    
+    // 收藏按钮
+    const favoritesBtn = document.querySelector('.favorites-btn');
+    if (favoritesBtn) {
+        favoritesBtn.addEventListener('click', function() {
+            // 此功能在主脚本中处理
+        });
+    }
+    
+    // 个人空间按钮
+    const personalBtn = document.querySelector('.personal-btn');
+    if (personalBtn) {
+        personalBtn.addEventListener('click', function() {
+            window.location.href = 'personal.html';
+        });
+    }
+    
+    // 设置按钮
+    const settingsBtn = document.querySelector('.settings-btn');
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', function() {
+            // 此功能在主脚本中处理
+        });
+    }
     
     // 设置按钮保存按钮
     document.querySelector('.save-settings').addEventListener('click', () => {
