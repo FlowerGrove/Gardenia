@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>诗词笔记</title>
+    <title>个人主页</title>
     <!-- Font Awesome 图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- 自定义样式 -->
@@ -142,6 +142,157 @@
             .post-title {
                 font-size: 1.3rem;
             }
+            
+            .game-images {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .game-images {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+        
+        /* 游戏内容卡片样式 */
+        .game-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .game-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .game-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 6px;
+            aspect-ratio: 16/9;
+        }
+        
+        .game-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .game-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .game-stats {
+            display: flex;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .game-stat {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .game-stat i {
+            margin-right: 5px;
+        }
+        
+        /* 图片放大模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
+        
+        .modal-content-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: auto;
+            height: auto;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .modal-content {
+            position: relative;
+            display: inline-block;
+            background-color: transparent;
+        }
+        
+        #expandedImg {
+            display: block;
+            max-width: 100%;
+            max-height: 85vh;
+            margin: 0 auto;
+        }
+        
+        .close-button {
+            position: absolute;
+            top: -40px;
+            right: 0px;
+            width: 30px;
+            height: 30px;
+            font-size: 30px;
+            color: white;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 10000;
+            line-height: 26px;
+            text-align: center;
+            opacity: 1;
+            font-family: Arial, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            padding: 0;
+            margin: 0;
+            font-weight: normal;
+            text-shadow: 0 0 3px rgba(0,0,0,0.5);
+        }
+        
+        .close-button:hover {
+            color: #ff4d4d;
+        }
+        
+        /* 浏览器兼容性修复 */
+        @supports (-ms-ime-align:auto) {
+            /* Edge浏览器 */
+            .close-button {
+                right: 5px;
+                top: -35px;
+            }
+        }
+        
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            /* IE10+ */
+            .close-button {
+                right: 5px;
+                top: -35px;
+            }
+            
+            .modal-content-wrapper {
+                display: table;
+            }
         }
     </style>
 </head>
@@ -160,40 +311,114 @@
             <img src="assets/images/wx_header.jpg" alt="作者头像" class="author-avatar">
             <div>
                 <div class="author-name">阿花</div>
-                <div class="author-bio">记录生活，现在为测试阶段</div>
+                <div class="author-bio">QQ：1298180958@qq.com</div>
+                <div class="author-bio">公众号：一堆花花草草</div>
+
             </div>
         </div>
         
         <article class="post">
-            <h2 class="post-title">读《赤壁赋》有感</h2>
-            <div class="post-meta">
-                <span><i class="far fa-calendar-alt"></i> 2023-10-28</span>
-                <span><i class="far fa-folder"></i> 读书笔记</span>
-            </div>
+            <h2 class="post-title"> 养鱼Demo</h2>
+            <!-- <div class="post-meta">
+                <span><i class="far fa-calendar-alt"></i> 2023-12-15</span>
+                <span><i class="far fa-folder"></i> 游戏体验</span>
+            </div> -->
             <div class="post-content">
-                <p>苏轼的《赤壁赋》不仅是文学史上的瑰宝，更是一种生活态度的体现。面对仕途坎坷，他选择在江面泛舟，与朋友共饮，借景抒情，表达了人生短暂与自然永恒的对比，以及豁达的生活态度。</p>
-                <p>"寄蜉蝣于天地，渺沧海之一粟"，道出了人之渺小；"哀吾生之须臾，羡长江之无穷"，抒发了对生命短暂的感慨。然而苏轼并未沉溺于悲观，而是在客人的一问中展现出超然物外的智慧："且夫天地之间，物各有主，苟非吾之所有，虽一毫而莫取。惟江上之清风，与山间之明月，耳得之而为声，目遇之而成色，取之无禁，用之不竭。"</p>
-                <p>这种超然的态度，正是古人面对困境时的智慧之光。</p>
+                <div class="game-card">
+                    <div class="game-images">
+                        <div class="game-image-container">
+                            <img src="assets/images/demofish.png" alt="艾尔登法环风景" class="game-image">
+                        </div>
+                        <!-- <div class="game-image-container">
+                            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/ss_5b98d0483bece9700b0ae5362e5ac2c5a718c982.1920x1080.jpg" alt="艾尔登法环战斗" class="game-image">
+                        </div>
+                        <div class="game-image-container">
+                            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/ss_0a15a4c6ba9ee30fbc7b9f0654d91a1d2acf5e96.1920x1080.jpg" alt="艾尔登法环BOSS" class="game-image">
+                        </div> -->
+                    </div>
+                    <!-- <div class="game-stats">
+                        <div class="game-stat"><i class="far fa-eye"></i> 1258</div>
+                        <div class="game-stat"><i class="far fa-comment"></i> 45</div>
+                        <div class="game-stat"><i class="far fa-heart"></i> 230</div>
+                    </div> -->
+                </div>
+                <p>打算做一个养鱼游戏，目前还没有思路，素材有了背景图，还有些小部件，素材全是自己用ai画的，保证原创</p>
+                <p>有想法的QQ联系</p>
+                <!-- <p>值得一提的是，游戏中的BOSS设计非常出色，每一个BOSS都有独特的战斗模式和背景故事，击败它们带来的成就感无与伦比。</p> -->
             </div>
         </article>
         
-      
         
-        <article class="post">
-            <h2 class="post-title">《声声慢》赏析</h2>
-            <div class="post-meta">
-                <span><i class="far fa-calendar-alt"></i> 2023-10-20</span>
-                <span><i class="far fa-folder"></i> 鉴赏笔记</span>
-            </div>
-            <div class="post-content">
-                <p>李清照的《声声慢》以"寻寻觅觅"开篇，直接展现了词人内心的惆怅和不安。整首词通过凄清的秋景和孤独的心境，表达了对往昔欢乐时光的追忆和对现实凄凉处境的感伤。</p>
-                <p>"寻寻觅觅，冷冷清清，凄凄惨惨戚戚。乍暖还寒时候，最难将息。"开篇六个叠字，营造出浓厚的忧伤氛围。"这次第，怎一个愁字了得！"这一名句，将满心的愁苦浓缩在一个"愁"字中，却又表达出"愁"无法完全概括其中苦楚的复杂情感。</p>
-            </div>
-        </article>
         
         <footer class="footer">
             <p>© 2025 阿花 · 保留所有权利</p>
         </footer>
     </div>
+    
+    <!-- 图片放大模态框 -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <span class="close-button">×</span>
+                <img id="expandedImg">
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 图片放大功能
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("expandedImg");
+        const closeBtn = document.getElementsByClassName("close-button")[0];
+        const modalContent = document.querySelector(".modal-content");
+        const modalWrapper = document.querySelector(".modal-content-wrapper");
+        
+        // 获取所有游戏图片
+        const images = document.querySelectorAll(".game-image");
+        
+        // 为每个图片添加点击事件
+        images.forEach(img => {
+            img.onclick = function(event) {
+                event.stopPropagation(); // 阻止事件冒泡
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                
+                // 确保关闭按钮始终可见
+                closeBtn.style.display = "block";
+                closeBtn.style.opacity = "1";
+                
+                // 预加载图片以确保尺寸正确
+                const tempImg = new Image();
+                tempImg.src = this.src;
+                tempImg.onload = function() {
+                    // 图片加载完成后可以进行其他操作
+                    console.log("图片加载完成");
+                };
+            }
+        });
+        
+        // 点击关闭按钮关闭模态框
+        closeBtn.onclick = function(event) {
+            event.stopPropagation(); // 阻止事件冒泡
+            modal.style.display = "none";
+        }
+        
+        // 点击模态框外部关闭模态框
+        modal.onclick = function(event) {
+            modal.style.display = "none";
+        }
+        
+        // 阻止点击图片内容时关闭模态框
+        modalWrapper.onclick = function(event) {
+            event.stopPropagation();
+        }
+        
+        // 按ESC键关闭模态框
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                modal.style.display = "none";
+            }
+        });
+    </script>
 </body>
 </html> 
